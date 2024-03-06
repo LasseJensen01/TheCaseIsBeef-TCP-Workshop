@@ -1,5 +1,3 @@
-package src;
-
 public class pair {
 	int x;
 	int y;

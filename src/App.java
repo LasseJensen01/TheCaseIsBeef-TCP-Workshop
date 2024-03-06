@@ -1,5 +1,3 @@
-package src;
-
 import java.net.*;
 import java.io.*;
 import javafx.application.Application;;

@@ -1,5 +1,3 @@
-package src;
-
 public class Player {
 	String name;
 	pair location;
