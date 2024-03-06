@@ -8,7 +8,7 @@ public class App {
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Indtast spillernavn");
 		String navn = inFromUser.readLine();
-		me = GameLogic.makePlayer(navn);
+		me= GameLogic.makePlayer(navn);
 		GameLogic.makeVirtualPlayer(); // to be removed
 		Application.launch(Gui.class);
 	}
