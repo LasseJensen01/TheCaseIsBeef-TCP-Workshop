@@ -13,7 +13,7 @@ public class App {
 	public static void main(String[] args) throws Exception{	
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Indtast spillernavn");
-		String navn = inFromUser.readLine();
+		String navn = "Jønke"; //inFromUser.readLine();
 		me = GameLogic.makePlayer(navn);
 		GameLogic.makeVirtualPlayer(); // to be removed
 		Application.launch(Gui.class);

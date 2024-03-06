@@ -8,7 +8,8 @@ public class Generel {
 		testPrintBoard(board);
 
 	}
-	public static  String[] board = constructBoard(20, 20); /*{    // 20x20
+	public static  String[] board = constructBoard(20, 20);
+	/*{    // 20x20
 			"wwwwwwwwwwwwwwwwwwww",
 			"w        ww        w",
 			"w w  w  www w  w  ww",
@@ -30,8 +31,6 @@ public class Generel {
 			"w   w   ww  w      w",
 			"wwwwwwwwwwwwwwwwwwww"
 	}; */
-
-	private static String[] bae = constructBoard(20, 20);
 
 
 	public static String[] constructBoard(int width, int height) {
