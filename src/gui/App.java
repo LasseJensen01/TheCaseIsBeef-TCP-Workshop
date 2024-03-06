@@ -1,6 +1,12 @@
+package gui;
+
 import java.net.*;
 import java.io.*;
+
 import javafx.application.Application;;
+
+import gui.Gui;
+import logic.*;
 
 public class App {
 	public static Player me;

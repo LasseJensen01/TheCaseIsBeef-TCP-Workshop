@@ -1,5 +1,4 @@
-import java.util.*;
-import java.util.List;
+package gui;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -10,8 +9,10 @@ import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.*;
+
+import utility.*;
+import logic.*;
 
 public class Gui extends Application {
 
@@ -58,13 +59,14 @@ public class Gui extends Application {
 			
 			GridPane boardGrid = new GridPane();
 
-			image_wall  = new Image(getClass().getResourceAsStream("Image/wall4.png"),size,size,false,false);
-			image_floor = new Image(getClass().getResourceAsStream("Image/floor1.png"),size,size,false,false);
+			//Husk, folderen hedder Image(s)! nu, og URI'en findes ved skråstreg inden folderen. Altså, /Images.blabla.png
+			image_wall  = new Image(getClass().getResourceAsStream("/Images/wall4.png"),size,size,false,false);
+			image_floor = new Image(getClass().getResourceAsStream("/Images/floor1.png"),size,size,false,false);
 
-			hero_right  = new Image(getClass().getResourceAsStream("Image/heroRight.png"),size,size,false,false);
-			hero_left   = new Image(getClass().getResourceAsStream("Image/heroLeft.png"),size,size,false,false);
-			hero_up     = new Image(getClass().getResourceAsStream("Image/heroUp.png"),size,size,false,false);
-			hero_down   = new Image(getClass().getResourceAsStream("Image/heroDown.png"),size,size,false,false);
+			hero_right  = new Image(getClass().getResourceAsStream("/Images/heroRight.png"),size,size,false,false);
+			hero_left   = new Image(getClass().getResourceAsStream("/Images/heroLeft.png"),size,size,false,false);
+			hero_up     = new Image(getClass().getResourceAsStream("/Images/heroUp.png"),size,size,false,false);
+			hero_down   = new Image(getClass().getResourceAsStream("/Images/heroDown.png"),size,size,false,false);
 
 			fields = new Label[20][20];
 			for (int j=0; j<20; j++) {

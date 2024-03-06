@@ -1,3 +1,14 @@
+### Ignore compiled Java classes
+*.class
+
+# Ignore logs and other runtime files
+logs/
+*.log
+
+# Ignore build output
+target/
+build/
+
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/
@@ -31,3 +42,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Ignore Gradle files ###
+.gradle/
+build/

@@ -1,3 +1,5 @@
+package utility;
+
 public class pair {
 	int x;
 	int y;
