@@ -25,9 +25,9 @@ public class Gui extends Application {
 	public static Image hero_right,hero_left,hero_up,hero_down;
 
 	
-
-	private static Label[][] fields;
-	private TextArea scoreList;
+	/** The cells making up the maze */
+	private static Label[][] cells;
+	private TextArea taScoreArea;
 	
 
 
@@ -42,106 +42,107 @@ public class Gui extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			
-			
-			GridPane grid = new GridPane();
-			grid.setHgap(10);
-			grid.setVgap(10);
-			grid.setPadding(new Insets(0, 10, 0, 10));
 
-			Text mazeLabel = new Text("Maze:");
-			mazeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-	
-			Text scoreLabel = new Text("Score:");
-			scoreLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+			initScene(primaryStage);
 
-			scoreList = new TextArea();
-			
-			GridPane boardGrid = new GridPane();
 
-			//Husk, folderen hedder Image(s)! nu, og URI'en findes ved skråstreg inden folderen. Altså, /Images.blabla.png
-			image_wall  = new Image(getClass().getResourceAsStream("/Images/wall4.png"),size,size,false,false);
-			image_floor = new Image(getClass().getResourceAsStream("/Images/floor1.png"),size,size,false,false);
-
-			hero_right  = new Image(getClass().getResourceAsStream("/Images/heroRight.png"),size,size,false,false);
-			hero_left   = new Image(getClass().getResourceAsStream("/Images/heroLeft.png"),size,size,false,false);
-			hero_up     = new Image(getClass().getResourceAsStream("/Images/heroUp.png"),size,size,false,false);
-			hero_down   = new Image(getClass().getResourceAsStream("/Images/heroDown.png"),size,size,false,false);
-
-			fields = new Label[20][20];
-			for (int j=0; j<20; j++) {
-				for (int i=0; i<20; i++) {
-					switch (Generel.board[j].charAt(i)) {
-					case 'w':
-						fields[i][j] = new Label("", new ImageView(image_wall));
-						break;
-					case ' ':					
-						fields[i][j] = new Label("", new ImageView(image_floor));
-						break;
-					default: throw new Exception("Illegal field value: "+Generel.board[j].charAt(i) );
-					}
-					boardGrid.add(fields[i][j], i, j);
-				}
-			}
-			scoreList.setEditable(false);
-			
-			
-			grid.add(mazeLabel,  0, 0); 
-			grid.add(scoreLabel, 1, 0); 
-			grid.add(boardGrid,  0, 1);
-			grid.add(scoreList,  1, 1);
-						
-			Scene scene = new Scene(grid,scene_width,scene_height);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-
-			scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-				switch (event.getCode()) {
-				case UP:    playerMoved(0,-1,"up");    break;
-				case DOWN:  playerMoved(0,+1,"down");  break;
-				case LEFT:  playerMoved(-1,0,"left");  break;
-				case RIGHT: playerMoved(+1,0,"right"); break;
-				case ESCAPE:System.exit(0); 
-				default: break;
-				}
-			});
-			
             // Putting default players on screen
-			for (int i=0;i<GameLogic.players.size();i++) {
-			  fields[GameLogic.players.get(i).getXpos()][GameLogic.players.get(i).getYpos()].setGraphic(new ImageView(hero_up));
+			for (int i=0; i < GameLogic.players.size(); i++) {
+			  cells[GameLogic.players.get(i).getXpos()][GameLogic.players.get(i).getYpos()].setGraphic(new ImageView(hero_up));
 			}
-			scoreList.setText(getScoreList());
+			taScoreArea.setText(getTaScoreArea());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+
+	private void initScene(Stage stage) throws Exception {
+		GridPane grid = new GridPane();
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(0, 10, 0, 10));
+
+		Text mazeLabel = new Text("Maze of Beef:");
+		mazeLabel.setFont(Font.font("Impact", FontWeight.BOLD, 22));
+
+		Text scoreLabel = new Text("Score:");
+		scoreLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
+
+		taScoreArea = new TextArea();
+
+		GridPane boardGrid = new GridPane();
+
+		//Husk, folderen hedder Image(s)! nu, og URI'en findes ved skråstreg inden folderen. Altså, /Images.blabla.png
+		image_wall  = new Image(getClass().getResourceAsStream("/Images/wall4.png"),size,size,false,false);
+		image_floor = new Image(getClass().getResourceAsStream("/Images/floor1.png"),size,size,false,false);
+
+		hero_right  = new Image(getClass().getResourceAsStream("/Images/heroRight.png"),size,size,false,false);
+		hero_left   = new Image(getClass().getResourceAsStream("/Images/heroLeft.png"),size,size,false,false);
+		hero_up     = new Image(getClass().getResourceAsStream("/Images/heroUp.png"),size,size,false,false);
+		hero_down   = new Image(getClass().getResourceAsStream("/Images/heroDown.png"),size,size,false,false);
+
+		cells = new Label[20][20];
+		for (int j = 0; j < 20; j++) {
+			for (int i = 0; i < 20; i++) {
+				cells[i][j] = switch (Generel.board[j].charAt(i)) {
+					case 'w' -> new Label("", new ImageView(image_wall));
+					case ' ' -> new Label("", new ImageView(image_floor));
+					default -> throw new Exception("Illegal field value: " + Generel.board[j].charAt(i));
+				};
+				boardGrid.add(cells[i][j], i, j);
+			}
+		}
+		taScoreArea.setEditable(false);
+
+
+
+		grid.add(mazeLabel,  0, 0);
+		grid.add(scoreLabel, 1, 0);
+		grid.add(boardGrid,  0, 1);
+		grid.add(taScoreArea,  1, 1);
+
+		Scene scene = new Scene(grid, scene_width, scene_height);
+		stage.setScene(scene);
+		stage.show();
+
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+			switch (event.getCode()) {
+				case UP -> playerMoved(0, -1, "up");
+				case DOWN -> playerMoved(0, +1, "down");
+				case LEFT -> playerMoved(-1, 0, "left");
+				case RIGHT -> playerMoved(+1, 0, "right");
+				case ESCAPE -> System.exit(0);
+				default -> {}
+			}
+		});
+	}
 	
-	public static void removePlayerOnScreen(pair oldpos) {
+	public static void removePlayerOnScreen(PosXY oldPos) {
 		Platform.runLater(() -> {
-			fields[oldpos.getX()][oldpos.getY()].setGraphic(new ImageView(image_floor));
+			cells[oldPos.getX()][oldPos.getY()].setGraphic(new ImageView(image_floor));
 			});
 	}
 	
-	public static void placePlayerOnScreen(pair newpos,String direction) {
+	public static void placePlayerOnScreen(PosXY newPos, String facingDir) {
 		Platform.runLater(() -> {
-			int newx = newpos.getX();
-			int newy = newpos.getY();
-			if (direction.equals("right")) {
-				fields[newx][newy].setGraphic(new ImageView(hero_right));
+			int newX = newPos.getX();
+			int newY = newPos.getY();
+			if (facingDir.equals("right")) {
+				cells[newX][newY].setGraphic(new ImageView(hero_right));
 			};
-			if (direction.equals("left")) {
-				fields[newx][newy].setGraphic(new ImageView(hero_left));
+			if (facingDir.equals("left")) {
+				cells[newX][newY].setGraphic(new ImageView(hero_left));
 			};
-			if (direction.equals("up")) {
-				fields[newx][newy].setGraphic(new ImageView(hero_up));
+			if (facingDir.equals("up")) {
+				cells[newX][newY].setGraphic(new ImageView(hero_up));
 			};
-			if (direction.equals("down")) {
-				fields[newx][newy].setGraphic(new ImageView(hero_down));
+			if (facingDir.equals("down")) {
+				cells[newX][newY].setGraphic(new ImageView(hero_down));
 			};
 			});
 	}
 	
-	public static void movePlayerOnScreen(pair oldpos,pair newpos,String direction)
+	public static void movePlayerOnScreen(PosXY oldpos, PosXY newpos, String direction)
 	{
 		removePlayerOnScreen(oldpos);
 		placePlayerOnScreen(newpos,direction);
@@ -152,15 +153,15 @@ public class Gui extends Application {
 	public void updateScoreTable()
 	{
 		Platform.runLater(() -> {
-			scoreList.setText(getScoreList());
+			taScoreArea.setText(getTaScoreArea());
 			});
 	}
-	public void playerMoved(int delta_x, int delta_y, String direction) {
-		GameLogic.updatePlayer(App.me,delta_x,delta_y,direction);
+	public void playerMoved(int delta_x, int delta_y, String facingDir) {
+		GameLogic.updatePlayer(App.me,delta_x,delta_y,facingDir);
 		updateScoreTable();
 	}
 	
-	public String getScoreList() {
+	public String getTaScoreArea() {
 		StringBuffer b = new StringBuffer(100);
 		for (Player p : GameLogic.players) {
 			b.append(p+"\r\n");
@@ -168,8 +169,5 @@ public class Gui extends Application {
 		return b.toString();
 	}
 
-
-
-	
 }
 

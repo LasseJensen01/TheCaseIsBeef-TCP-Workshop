@@ -6,32 +6,32 @@ import java.util.Random;
 
 import gui.Gui;
 import utility.Generel;
-import utility.pair;
-
+import utility.PosXY;
 
 
 public class GameLogic {
-public static List<Player> players = new ArrayList<Player>();	
+public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne stå her, eller henvise til en anden List?
 
 	
 	
 	public static Player makePlayer(String name) {
 		Player me;
-		pair p=getRandomFreePosition();
-		me = new Player(name,p,"up");
+		PosXY pos = getRandomFreePosition();
+		me = new Player(name,pos,"up");
 		players.add(me);
 		return me;
 	};	
 	
 	public static void makeVirtualPlayer()	{    // just demo/testing player - not in real game 
-		pair p=getRandomFreePosition();
-		Player kaj = new Player("Kaj",p,"up");
+		PosXY pos = getRandomFreePosition();
+		Player kaj = new Player("Kaj",pos,"up");
 		players.add(kaj);
 	}
-	
-	public static pair getRandomFreePosition()
-	// finds a random new position which is not wall 
-	// and not occupied by other players 
+
+	/** finds a random new position which is:
+	 * 1) not wall
+	 * 2) not occupied by other players  */
+	public static PosXY getRandomFreePosition()
 	{
 		int x = 1;
 		int y = 1;
@@ -50,44 +50,45 @@ public static List<Player> players = new ArrayList<Player>();
 				
 			}
 		}
-		pair p = new pair(x,y);
-		return p;
+		PosXY pos = new PosXY(x,y);
+		return pos;
 	}
 	
-	public static void updatePlayer(Player me, int delta_x, int delta_y, String direction)
+	public static void updatePlayer(Player me, int delta_x, int delta_y, String facingDir)
 	{
-		me.direction = direction;
+		me.facingDir = facingDir;
 		int x = me.getXpos(),y = me.getYpos();
 
+		// when moving up against wall
 		if (Generel.board[y+delta_y].charAt(x+delta_x)=='w') {
 			me.addPoints(-1);
 		} 
 		else {
 			// collision detection
-			Player p = getPlayerAt(x+delta_x,y+delta_y);
-			if (p!=null) {
+			Player player = getPlayerAt(x+delta_x,y+delta_y);
+			if (player!=null) {
               me.addPoints(10);
               //update the other player
-              p.addPoints(-10);
-              pair pa = getRandomFreePosition();
-              p.setLocation(pa);
-              pair oldpos = new pair(x+delta_x,y+delta_y);
-              Gui.movePlayerOnScreen(oldpos,pa,p.direction);
+              player.addPoints(-10);
+              PosXY randPos = getRandomFreePosition();
+              player.setPos(randPos);
+              PosXY oldPos = new PosXY(x+delta_x,y+delta_y);
+              Gui.movePlayerOnScreen(oldPos,randPos,player.facingDir);
 			} else 
 				me.addPoints(1);
-			pair oldpos = me.getLocation();
-			pair newpos = new pair(x+delta_x,y+delta_y); 
-			Gui.movePlayerOnScreen(oldpos,newpos,direction);
-			me.setLocation(newpos);
+			PosXY oldPos = me.getPos();
+			PosXY newPos = new PosXY(x+delta_x,y+delta_y);
+			Gui.movePlayerOnScreen(oldPos,newPos,facingDir);
+			me.setPos(newPos);
 		}
 		
 		
 	}
 	
 	public static Player getPlayerAt(int x, int y) {
-		for (Player p : players) {
-			if (p.getXpos()==x && p.getYpos()==y) {
-				return p;
+		for (Player player : players) {
+			if (player.getXpos()==x && player.getYpos()==y) {
+				return player;
 			}
 		}
 		return null;

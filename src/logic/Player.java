@@ -4,42 +4,40 @@ import utility.*;
 
 public class Player {
 	String name;
-	pair location;
+	PosXY pos;
 	int point;
-	String direction;
+	String facingDir;
 
-	public Player(String name, pair loc, String direction) {
+	public Player(String name, PosXY posXY, String facingDir) {
 		this.name = name;
-		this.location = loc;
-		this.direction = direction;
+		this.pos = posXY;
+		this.facingDir = facingDir;
 		this.point = 0;
 	};
 	
-	public pair getLocation() {
-		return this.location;
+	public PosXY getPos() {
+		return this.pos;
 	}
-
-	public void setLocation(pair p) {
-		this.location=p;
+	public void setPos(PosXY p) {
+		this.pos =p;
 	}
-
 	public int getXpos() {
-		return location.getX();
+		return pos.getX();
 	}
 	public void setXpos(int xpos) {
-		this.location.setX(xpos);
+		this.pos.setX(xpos);
 	}
 	public int getYpos() {
-		return location.getY();
+		return pos.getY();
 	}
 	public void setYpos(int ypos) {
-		this.location.setY(ypos);
+		this.pos.setY(ypos);
 	}
-	public String getDirection() {
-		return direction;
+	public String getFacingDir() {
+		return facingDir;
 	}
-	public void setDirection(String direction) {
-		this.direction = direction;
+	public void setFacingDir(String facingDir) {
+		this.facingDir = facingDir;
 	}
 	public void addPoints(int p) {
 		point+=p;

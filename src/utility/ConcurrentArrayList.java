@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/** LUC: Hvad skal dette forestille at være?! */
 public class ConcurrentArrayList implements Iterable<Player>
 {
 	private List<Player> liste = new ArrayList<Player>(); 

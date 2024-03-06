@@ -1,9 +1,9 @@
 package utility;
 
-public class pair {
+public class PosXY {
 	int x;
 	int y;
-	public pair(int x, int y) {
+	public PosXY(int x, int y) {
 		super();
 		this.x = x;
 		this.y = y;
