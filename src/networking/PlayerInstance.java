@@ -1,20 +1,30 @@
 package networking;
 
+import logic.GameLogic;
 import logic.Player;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 import java.time.LocalTime;
+import java.util.function.Function;
 
 public class PlayerInstance implements Runnable {
     private Player player;
     private LocalTime inputTime;
+    private String latestInput;
     private Socket socket;
     private Thread thread;
 
     public PlayerInstance(Socket socket) {
         this.socket = socket;
+        this.player = new Player("", GameLogic.getRandomFreePosition(), "up");
+        while (!pickingName()) ;
         this.thread = new Thread(this::run);
         thread.start();
+
 
     }
 
@@ -25,5 +35,41 @@ public class PlayerInstance implements Runnable {
         //Send det løste gamestate tilbage.
 
         //Rinse and repeat!
+    }
+
+    private boolean pickingName() {
+        try {
+
+            //Læs input fra brugeren
+            BufferedReader inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            String name = inFromClient.readLine();
+
+            //Opdatér this.player.name
+            this.player.setName(name);
+
+            //Send navn tilbage - et godt baby step!
+            DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
+            Function<String, String> ack = String::toUpperCase;
+            outToClient.writeBytes(ack.apply(this.toString()));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
+    }
+
+    /** Polls the input buffer for this players latest action */
+    public void readInput(){
+
+    }
+    private static int nr = 0;
+    @Override
+    public String toString() {
+        return "PlayerInstance " + ++nr + " {"+
+                "\n   player=   " + player +
+                "\n   inputTime=" + inputTime +
+                "\n   socket=   " + socket +
+                "\n   thread=   " + thread +
+                "\n}";
     }
 }

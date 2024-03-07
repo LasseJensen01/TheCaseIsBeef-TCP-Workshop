@@ -10,11 +10,11 @@ public interface Beefable {
      * @return void */
     public abstract void boot(int port);
 
-    /** Instantiates a Player within a Thread, who is waiting
+    /** Instantiates a new Player within a Thread, who is waiting
      * to join an ongoing game. The players avatar is placed on the
      * board after short delay on next available server tick
      * @throws PlayerJoinExeption */
-    public abstract void initializePlayer(Player newPlayer);
+    public abstract void initializePlayer();
 
     /** Polls current players for their chosen input, queues each player input,
      * resolves the outcome of each input (prioritized by the logical time of input occurence),
