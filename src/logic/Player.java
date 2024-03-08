@@ -42,6 +42,9 @@ public class Player {
 	public void addPoints(int p) {
 		point+=p;
 	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String toString() {
 		return name+":   "+point;
 	}
