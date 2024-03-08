@@ -52,12 +52,10 @@ public class MotherServer {
             playerConnSocket = serverSocket.accept();
             System.out.println("Starting playerInstance");
             PlayerInstance newPlayer = new PlayerInstance(playerConnSocket /*og mere?*/);
-            System.out.println("Debug player is done" +  newPlayer.toString());
             playerThreads.put(newPlayer.getPlayer().getName(), newPlayer);
-            System.out.println("Player added to map " + playerThreads.toString());
             DataOutputStream outToPlayer = new DataOutputStream(playerConnSocket.getOutputStream());
             // Send map and later gamestate to the new pleb
-            System.out.println("Reading map");
+            System.out.println("Reading Board");
             for (int i = 0; i < board.length; i++) {
                 outToPlayer.writeBytes(board[i] + "\n");
             }

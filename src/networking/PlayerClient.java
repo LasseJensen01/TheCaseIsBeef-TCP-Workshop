@@ -48,6 +48,7 @@ public class PlayerClient {
         for (int i = 0; i < board.length; i++) {
             System.out.println(board[i]);
         }
+        System.out.println();
     }
 
 }

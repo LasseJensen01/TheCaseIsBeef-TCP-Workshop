@@ -19,6 +19,7 @@ public class PlayerInstance implements Runnable {
     private Thread thread;
 
     public PlayerInstance(Socket socket) {
+        nr++;
         System.out.println("Debug playerinstance");
         this.socket = socket;
         this.player = new Player("", GameLogic.getRandomFreePosition(), "up");
@@ -31,11 +32,7 @@ public class PlayerInstance implements Runnable {
 
     @Override
     public void run() {
-        //Læs input fra brugeren
 
-        //Send det løste gamestate tilbage.
-
-        //Rinse and repeat!
     }
 
     private boolean pickingName() {
@@ -49,10 +46,10 @@ public class PlayerInstance implements Runnable {
             //Opdatér this.player.name
             this.player.setName(name);
 
-            //Send navn tilbage - et godt baby step!
-            DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
+            //Send navn tilbage - et !godt baby step!
+            /*DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
             Function<String, String> ack = String::toUpperCase;
-            outToClient.writeBytes(ack.apply(this.toString()));
+            outToClient.writeBytes(ack.apply(this.toString()));*/
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -67,7 +64,7 @@ public class PlayerInstance implements Runnable {
     private static int nr = 0;
     @Override
     public String toString() {
-        return "PlayerInstance " + ++nr + " {"+
+        return "PlayerInstance " + nr + " {"+
                 "\n   player=   " + player +
                 "\n   inputTime=" + inputTime +
                 "\n   socket=   " + socket +
