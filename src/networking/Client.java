@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client {
-    private static final String server_IP = "192.168.0.159";
+    private static final String server_IP = "10.10.138.240";
     private static final int serverPort = 1234;
 
     public static void main(String[] args) throws IOException {
