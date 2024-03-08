@@ -3,6 +3,7 @@ package networking;
 import com.sun.source.tree.WhileLoopTree;
 
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -45,4 +46,19 @@ public class ClientHandler implements Runnable {
             client.out.println(msg);
         }
     }
+
+    /*public static void test(){ // For Clienthandler ??:D
+        try {
+            ServerSocket welcomeSocket = new ServerSocket(1212);
+            while (!connectionSocket.isClosed()){
+                connectionSocket = welcomeSocket.accept();
+                PlayerThread t1 = new PlayerThread(connectionSocket);
+                playerThreads.add(t1);
+
+            }
+        } catch (IOException e){
+
+        }
+
+    }*/
 }

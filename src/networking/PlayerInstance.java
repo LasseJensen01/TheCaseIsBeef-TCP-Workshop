@@ -19,13 +19,14 @@ public class PlayerInstance implements Runnable {
     private Thread thread;
 
     public PlayerInstance(Socket socket) {
+        System.out.println("Debug playerinstance");
         this.socket = socket;
         this.player = new Player("", GameLogic.getRandomFreePosition(), "up");
-        while (!pickingName()) ;
+        System.out.println("Type name");
+        while (!pickingName());
+        System.out.println("Name debug " + player.getName());
         this.thread = new Thread(this::run);
         thread.start();
-
-
     }
 
     @Override
@@ -39,10 +40,11 @@ public class PlayerInstance implements Runnable {
 
     private boolean pickingName() {
         try {
-
+            System.out.println("Picking name debug");
             //Læs input fra brugeren
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String name = inFromClient.readLine();
+            System.out.println("Fuck");
 
             //Opdatér this.player.name
             this.player.setName(name);
@@ -71,5 +73,9 @@ public class PlayerInstance implements Runnable {
                 "\n   socket=   " + socket +
                 "\n   thread=   " + thread +
                 "\n}";
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

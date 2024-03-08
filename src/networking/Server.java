@@ -34,14 +34,11 @@ public class Server implements Beefable {
         try {
             playerConnSocket = serverSocket.accept();
 
-
-
             PlayerInstance newPlayer = new PlayerInstance(playerConnSocket /*og mere?*/);
             instances.add(newPlayer);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void tick() {
