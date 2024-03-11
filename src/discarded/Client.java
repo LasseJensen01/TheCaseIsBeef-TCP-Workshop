@@ -1,4 +1,6 @@
-package networking;
+package discarded;
+
+import discarded.ServerConnection;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,8 +8,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Client2 {
-
+public class Client {
     private static final String server_IP = "10.10.138.240";
     private static final int serverPort = 1234;
 
@@ -38,4 +39,6 @@ public class Client2 {
 
         clientSocket.close();
     }
+
+
 }

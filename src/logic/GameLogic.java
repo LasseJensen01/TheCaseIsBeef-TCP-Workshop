@@ -9,7 +9,7 @@ import utility.Generel;
 import utility.PosXY;
 
 
-public class GameLogic {
+public abstract class GameLogic {
 public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne stå her, eller henvise til en anden List?
 
 	

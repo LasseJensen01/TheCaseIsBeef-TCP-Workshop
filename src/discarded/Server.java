@@ -1,6 +1,8 @@
-package networking;
+package discarded;
 
 import logic.Player;
+import networking.Beefable;
+import networking.PlayerInstance;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -1,4 +1,4 @@
-package networking;
+package discarded;
 
 import java.io.*;
 import java.net.Socket;
