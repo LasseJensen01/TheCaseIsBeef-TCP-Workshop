@@ -1,18 +1,21 @@
 package gui;
 
+import beef_commons.logic.*;
+import beef_commons.utility.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.*;
-
-import utility.*;
-import logic.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class Gui extends Application {
 
@@ -47,7 +50,7 @@ public class Gui extends Application {
 
 
             // Putting default players on screen
-			for (int i=0; i < GameLogic.players.size(); i++) {
+			for (int i = 0; i < GameLogic.players.size(); i++) {
 			  cells[GameLogic.players.get(i).getXpos()][GameLogic.players.get(i).getYpos()].setGraphic(new ImageView(hero_up));
 			}
 			taScoreArea.setText(getTaScoreArea());

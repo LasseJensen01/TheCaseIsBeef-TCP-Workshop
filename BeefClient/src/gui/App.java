@@ -1,12 +1,12 @@
 package gui;
 
-import java.net.*;
-import java.io.*;
+import beef_commons.logic.*;
+import javafx.application.Application;
 
-import javafx.application.Application;;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
-import gui.Gui;
-import logic.*;
+;
 
 public class App {
 	public static Player me;

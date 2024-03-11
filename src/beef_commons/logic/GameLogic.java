@@ -1,12 +1,12 @@
-package logic;
+package beef_commons.logic;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import gui.Gui;
-import utility.Generel;
-import utility.PosXY;
+import beef_commons.utility.Generel;
+import beef_commons.utility.PosXY;
 
 
 public class GameLogic {

@@ -1,6 +1,7 @@
 package networking;
 
-import utility.Generel;
+import beef_commons.utility.*;
+import beef_commons.logic.*;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -10,32 +11,33 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MotherServer {
-    private static BufferedReader inFromServer = new BufferedReader(new InputStreamReader(System.in));
-    private static int port = 1234;
-    private static ServerSocket serverSocket;
-    private static String IP;
-    private static boolean isBeefing = true;
-    private static HashMap<String, PlayerInstance> playerThreads = new HashMap<>();
-    public static String[] board = Generel.constructBoard(20,20);
+non-sealed class MotherServer extends ServerFieldCapsule {
     public static void main(String[] args) {
+        MotherServer beefServer1 = new MotherServer();
+    }
+
+    public MotherServer() {
         try {
-            IP = InetAddress.getLocalHost().getHostAddress();
+            port = 1234;
+            isBeefing = true;
+            board = Generel.constructBoard(20,20);
             serverSocket = new ServerSocket(port);
+            playerThreads = new HashMap<>();
+            inFromServer = new BufferedReader(new InputStreamReader(System.in));
+            IP = InetAddress.getLocalHost().getHostAddress();
+
         } catch (IOException e) {
             System.err.println("fucky wucky");
         }
         boot(port);
-        while (true){
+        while (isBeefing) {
 
         }
     }
 
-
-    public static void boot(int port) {
+    public void boot(int port) {
         System.out.println("Debog boot");
         Thread hostingThread = new Thread(() -> {
             System.out.println("Boot thread made");
@@ -46,15 +48,14 @@ public class MotherServer {
         hostingThread.start();
     }
 
-    public static void initializePlayer() {
-        Socket playerConnSocket = null;
+    public void initializePlayer() {
         try {
-            playerConnSocket = serverSocket.accept();
+            Socket playerConnSocket = serverSocket.accept();
             System.out.println("Starting playerInstance");
-            PlayerInstance newPlayer = new PlayerInstance(playerConnSocket /*og mere?*/);
+            PlayerInstance newPlayer = new PlayerInstance(playerConnSocket);
             playerThreads.put(newPlayer.getPlayer().getName(), newPlayer);
             DataOutputStream outToPlayer = new DataOutputStream(playerConnSocket.getOutputStream());
-            // Send map and later gamestate to the new pleb
+            // Send map and later game state to the new pleb
             System.out.println("Reading Board");
             for (int i = 0; i < board.length; i++) {
                 outToPlayer.writeBytes(board[i] + "\n");
@@ -71,6 +72,22 @@ public class MotherServer {
     }
 
     public boolean resolveOutcome() {
+
         return false;
     }
 }
+
+sealed abstract class ServerFieldCapsule permits MotherServer {
+    int port;
+    boolean isBeefing;
+    BufferedReader inFromServer;
+    String IP;
+    ServerSocket serverSocket;
+    HashMap<String, PlayerInstance> playerThreads;
+    String[] board;
+
+    protected ServerFieldCapsule(){
+
+    };
+}
+

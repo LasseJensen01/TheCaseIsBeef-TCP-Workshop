@@ -11,5 +11,6 @@
     <orderEntry type="library" name="javafx" level="application" />
     <orderEntry type="library" name="javaFX" level="application" />
     <orderEntry type="library" name="javaFX-DOCS" level="application" />
+    <orderEntry type="module" module-name="BeefClient" />
   </component>
 </module>

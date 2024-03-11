@@ -1,7 +1,6 @@
 package networking;
 
-import logic.GameLogic;
-import logic.Player;
+import beef_commons.logic.*;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

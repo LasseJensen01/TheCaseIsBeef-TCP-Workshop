@@ -1,4 +1,4 @@
-package utility;
+package beef_commons.utility;
 
 import java.util.Random;
 

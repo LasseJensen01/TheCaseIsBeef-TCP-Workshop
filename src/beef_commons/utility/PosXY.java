@@ -1,4 +1,4 @@
-package utility;
+package beef_commons.utility;
 
 public class PosXY {
 	int x;

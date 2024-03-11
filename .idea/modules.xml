@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Beef1/Beef1.iml" filepath="$PROJECT_DIR$/Beef1/Beef1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BeefClient/BeefClient.iml" filepath="$PROJECT_DIR$/BeefClient/BeefClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BeefServer/BeefServer.iml" filepath="$PROJECT_DIR$/BeefServer/BeefServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/TheCaseIsBeef.iml" filepath="$PROJECT_DIR$/TheCaseIsBeef.iml" />
     </modules>
   </component>
