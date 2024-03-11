@@ -2,7 +2,7 @@ package utility;
 
 import java.util.Random;
 
-public class Generel {
+public abstract class Generel {
 	public static void main(String[] args) {
 
 		testPrintBoard(board);
