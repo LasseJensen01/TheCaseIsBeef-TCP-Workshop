@@ -8,7 +8,7 @@ public abstract class Generel {
 		testPrintBoard(board);
 
 	}
-	public static  String[] board = constructBoard(20, 20);
+	public static  String[] board = new String[20]; // Board to hold randomly generated map.
 	/*{    // 20x20
 			"wwwwwwwwwwwwwwwwwwww",
 			"w        ww        w",

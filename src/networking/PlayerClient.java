@@ -7,6 +7,8 @@ import javafx.scene.input.KeyEvent;
 import logic.Player;
 import utility.PosXY;
 
+import utility.Generel;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -51,6 +53,7 @@ public class PlayerClient {
         System.out.println("Board read");
         board = new String[tempBoard.size()];
         tempBoard.toArray(board);
+        Generel.board = board;
         System.out.println();
         for (int i = 0; i < board.length; i++) {
             System.out.println(board[i]);

@@ -10,8 +10,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class MotherServer {
     private static BufferedReader inFromServer = new BufferedReader(new InputStreamReader(System.in));
@@ -29,9 +29,7 @@ public class MotherServer {
             System.err.println("fucky wucky");
         }
         boot(port);
-        while (true){
-
-        }
+        tick();
     }
 
 
@@ -66,11 +64,10 @@ public class MotherServer {
         }
     }
 
-    public void tick() {
-
+    public static void tick() {
     }
 
-    public boolean resolveOutcome() {
+    public static boolean resolveOutcome(ArrayList<String> inputs) {
         return false;
     }
 }
