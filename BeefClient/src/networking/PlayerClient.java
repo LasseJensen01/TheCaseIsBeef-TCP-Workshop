@@ -2,12 +2,11 @@ package networking;
 
 import gui.App;
 import gui.Gui;
+
 import javafx.event.Event;
 import javafx.scene.input.KeyEvent;
-import logic.Player;
-import utility.PosXY;
-
-import utility.Generel;
+import beef_commons.logic.*;
+import beef_commons.utility.*;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,6 +17,8 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static beef_commons.utility.Generel.constructBoard;
 
 public class PlayerClient {
     private static int port = 1234;
@@ -54,6 +55,11 @@ public class PlayerClient {
         board = new String[tempBoard.size()];
         tempBoard.toArray(board);
         Generel.board = board;
+
+        if (Generel.board == null) {
+            Generel.board = constructBoard(20,20); //TODO for no-network testing
+        }
+
         System.out.println();
         for (int i = 0; i < board.length; i++) {
             System.out.println(board[i]);

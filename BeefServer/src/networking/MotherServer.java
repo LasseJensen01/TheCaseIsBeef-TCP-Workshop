@@ -2,8 +2,6 @@ package networking;
 
 import beef_commons.utility.*;
 import beef_commons.logic.*;
-import utility.Generel;
-import utility.PosXY;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -13,6 +11,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -37,7 +36,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         boot(port);
         while (isBeefing) {
             tick();
-            //Sleep
+            //Sleep?
         }
 
     }
@@ -76,7 +75,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
 
     }
 
-    public static boolean resolveOutcome(ArrayList<String> inputs) {
+    public boolean resolveOutcome(ArrayList<String> inputs) {
         String[] words = new String[inputs.size()];
 
         for (int j = 0; j < inputs.size(); j++) {
@@ -88,14 +87,12 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             int posY = Integer.parseInt(words[2]);
             String action = words[3];
 
-            if(action.equals("w")) {
-                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "up");
-            }else if(action.equals("s")){
-                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "down");
-            }else if(action.equals("a")){
-                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "left");
-            }else if(action.equals("d")){
-                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "right");
+            switch (action) {
+                case "w" -> GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "up");
+                case "s" -> GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "down");
+                case "a" -> GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "left");
+                case "d" -> GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "right");
+                default -> {}
             }
 
             i++;

@@ -33,6 +33,11 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 	 * 2) not occupied by other players  */
 	public static PosXY getRandomFreePosition()
 	{
+		if (Generel.board == null) { //TODO for no-network testing
+			Generel.constructBoard(20,20);
+			System.out.println("Board is null: constructing new board.");
+		}
+
 		int x = 1;
 		int y = 1;
 		boolean foundfreepos = false;
