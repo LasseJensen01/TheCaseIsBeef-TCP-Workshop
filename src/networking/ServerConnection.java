@@ -3,6 +3,8 @@ package networking;
 import java.io.*;
 import java.net.Socket;
 
+import static java.lang.System.out;
+
 public class ServerConnection implements Runnable{
     private Socket server;
     private BufferedReader in;
@@ -18,7 +20,7 @@ public class ServerConnection implements Runnable{
         while(true){
             try {
                 String serverResponse = in.readLine();
-                System.out.println("ServerConnections says: " + serverResponse);
+                out.println("ServerConnections says: " + serverResponse);
 
             } catch (IOException e) {
                 throw new RuntimeException(e);

@@ -24,6 +24,7 @@ public class Server1 {
             System.out.println("waiting for client");
             Socket client = serverSocket.accept();
             System.out.println("Connected");
+
             ClientHandler playerThread = new ClientHandler(client, clientHandlers);
             clientHandlers.add(playerThread);
             pool.execute(playerThread);
