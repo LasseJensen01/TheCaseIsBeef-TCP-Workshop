@@ -1,6 +1,8 @@
 package networking;
 
+import logic.GameLogic;
 import utility.Generel;
+import utility.PosXY;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -20,7 +22,8 @@ public class MotherServer {
     private static String IP;
     private static boolean isBeefing = true;
     private static HashMap<String, PlayerInstance> playerThreads = new HashMap<>();
-    public static String[] board = Generel.constructBoard(20,20);
+    public static String[] board = Generel.constructBoard(20, 20);
+
     public static void main(String[] args) {
         try {
             IP = InetAddress.getLocalHost().getHostAddress();
@@ -65,9 +68,33 @@ public class MotherServer {
     }
 
     public static void tick() {
+
     }
 
     public static boolean resolveOutcome(ArrayList<String> inputs) {
+        String[] words = new String[inputs.size()];
+
+        for (int j = 0; j < inputs.size(); j++) {
+            int i = 0;
+            inputs.get(i).split(","/*check it spits on the right thing */, -1);
+
+            String name = words[0];
+            int posX = Integer.parseInt(words[1]);
+            int posY = Integer.parseInt(words[2]);
+            String action = words[3];
+
+            if(action.equals("w")) {
+                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "up");
+            }else if(action.equals("s")){
+                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "down");
+            }else if(action.equals("a")){
+                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "left");
+            }else if(action.equals("d")){
+                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "right");
+            }
+
+            i++;
+        }
         return false;
     }
 }
