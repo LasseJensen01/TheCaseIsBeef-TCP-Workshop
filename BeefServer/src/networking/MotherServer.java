@@ -87,20 +87,28 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             int posY = Integer.parseInt(words[2]);
             String action = words[3];
 
+            Player currPlayer = playerThreads.get(name).getPlayer();
+
             switch (action) {
-                case "w" -> GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "up");
-                case "s" -> GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "down");
-                case "a" -> GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "left");
-                case "d" -> GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "right");
+                case "w" -> {
+                    GameLogic.updatePlayer(currPlayer,posX,posY,"up");
+                }
+                case "s" -> {
+                    GameLogic.updatePlayer(currPlayer,posX,posY,"down");
+                }
+                case "a" -> {
+                    GameLogic.updatePlayer(currPlayer,posX,posY,"left");
+                }
+                case "d" -> {
+                    GameLogic.updatePlayer(currPlayer,posX,posY,"right");
+                }
                 default -> {}
             }
-
             i++;
         }
         return false;
     }
 }
-
 sealed abstract class ServerFieldCapsule permits MotherServer {
     int port;
     boolean isBeefing;
@@ -110,8 +118,8 @@ sealed abstract class ServerFieldCapsule permits MotherServer {
     HashMap<String, PlayerInstance> playerThreads;
     String[] board;
 
-    protected ServerFieldCapsule(){
+    ServerFieldCapsule(){
 
-    };
+    }
 }
 
