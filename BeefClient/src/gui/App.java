@@ -6,7 +6,9 @@ import javafx.application.Application;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-;
+import gui.Gui;
+import javafx.event.Event;
+import logic.*;
 
 public class App {
 	public static Player me;
@@ -19,4 +21,3 @@ public class App {
 		Application.launch(Gui.class);
 	}
 }
-;

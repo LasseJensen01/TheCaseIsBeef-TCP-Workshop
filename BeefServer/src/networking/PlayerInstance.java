@@ -19,7 +19,6 @@ public class PlayerInstance implements Runnable {
 
     public PlayerInstance(Socket socket) {
         nr++;
-        System.out.println("Debug playerinstance");
         this.socket = socket;
         this.player = new Player("", GameLogic.getRandomFreePosition(), "up");
         System.out.println("Type name");
@@ -73,5 +72,9 @@ public class PlayerInstance implements Runnable {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public Socket getSocket() {
+        return socket;
     }
 }

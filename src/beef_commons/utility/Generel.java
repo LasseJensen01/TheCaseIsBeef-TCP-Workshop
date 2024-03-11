@@ -2,13 +2,13 @@ package beef_commons.utility;
 
 import java.util.Random;
 
-public class Generel {
+public abstract class Generel {
 	public static void main(String[] args) {
 
 		testPrintBoard(board);
 
 	}
-	public static  String[] board = constructBoard(20, 20);
+	public static  String[] board = new String[20]; // Board to hold randomly generated map.
 	/*{    // 20x20
 			"wwwwwwwwwwwwwwwwwwww",
 			"w        ww        w",
