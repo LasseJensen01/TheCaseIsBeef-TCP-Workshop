@@ -1,5 +1,12 @@
 package networking;
 
+import gui.App;
+import gui.Gui;
+import javafx.event.Event;
+import javafx.scene.input.KeyEvent;
+import logic.Player;
+import utility.PosXY;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -50,5 +57,35 @@ public class PlayerClient {
         }
         System.out.println();
     }
+
+    public void declareAction() {
+        Player thisPlayer = App.me;
+
+        try {
+            String name = "PLAYER{"+thisPlayer.getName()+"}";
+            String currPos = "POS{"+thisPlayer.getPos().toString()+"}";
+            String action = parseAction((KeyEvent) Gui.currentAction);
+            String points = "POINTS{"+thisPlayer.getPoints()+"}";
+
+            String updateMsg = name+currPos+action+points;
+            outToServer.writeBytes(updateMsg); //SENDING UPDATE
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private String parseAction(KeyEvent event) {
+        String action = null;
+        switch (event.getCode()) {
+            case UP -> {action = "ACTION{moveUp}";}
+            case DOWN -> {action = "ACTION{moveDown}";}
+            case LEFT -> {action = "ACTION{moveLeft}";}
+            case RIGHT -> {action = "ACTION{moveRight}";}
+            case SPACE -> {action = "ACTION{shoot}";}
+            case ESCAPE -> {action = "ACTION{quit}";}
+            default -> {action = "ACTION{none}";}
+        }
+        return action;
+    }
+
 
 }

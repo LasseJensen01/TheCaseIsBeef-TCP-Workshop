@@ -6,6 +6,7 @@ import java.io.*;
 import javafx.application.Application;;
 
 import gui.Gui;
+import javafx.event.Event;
 import logic.*;
 
 public class App {
@@ -19,4 +20,3 @@ public class App {
 		Application.launch(Gui.class);
 	}
 }
-;

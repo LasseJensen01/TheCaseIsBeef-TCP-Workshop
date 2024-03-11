@@ -2,6 +2,7 @@ package gui;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -23,6 +24,7 @@ public class Gui extends Application {
 	public static Image image_floor;
 	public static Image image_wall;
 	public static Image hero_right,hero_left,hero_up,hero_down;
+	public static Event currentAction;
 
 	
 	/** The cells making up the maze */
@@ -107,10 +109,26 @@ public class Gui extends Application {
 
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 			switch (event.getCode()) {
-				case UP -> playerMoved(0, -1, "up");
-				case DOWN -> playerMoved(0, +1, "down");
-				case LEFT -> playerMoved(-1, 0, "left");
-				case RIGHT -> playerMoved(+1, 0, "right");
+				case UP -> {
+					playerMoved(0, -1, "up");
+					currentAction = event;
+				}
+				case DOWN -> {
+					playerMoved(0, +1, "down");
+					currentAction = event;
+				}
+				case LEFT -> {
+					playerMoved(-1, 0, "left");
+					currentAction = event;
+				}
+				case RIGHT -> {
+					playerMoved(+1, 0, "right");
+					currentAction = event;
+				}
+				case SPACE ->  {
+					// playerAttack();
+					currentAction = event;
+				}
 				case ESCAPE -> System.exit(0);
 				default -> {}
 			}
