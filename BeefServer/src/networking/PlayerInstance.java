@@ -1,7 +1,6 @@
 package networking;
 
-import logic.GameLogic;
-import logic.Player;
+import beef_commons.logic.*;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -17,6 +16,7 @@ public class PlayerInstance implements Runnable {
     private String latestInput;
     private Socket socket;
     private Thread thread;
+    private static int nr = 0;
 
     public PlayerInstance(Socket socket) {
         nr++;
@@ -45,10 +45,8 @@ public class PlayerInstance implements Runnable {
             //Opdatér this.player.name
             this.player.setName(name);
 
-            //Send navn tilbage - et !godt baby step!
-            /*DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
-            Function<String, String> ack = String::toUpperCase;
-            outToClient.writeBytes(ack.apply(this.toString()));*/
+            //Send evt. navn tilbage
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -60,7 +58,7 @@ public class PlayerInstance implements Runnable {
     public void readInput(){
 
     }
-    private static int nr = 0;
+
     @Override
     public String toString() {
         return "PlayerInstance " + nr + " {"+

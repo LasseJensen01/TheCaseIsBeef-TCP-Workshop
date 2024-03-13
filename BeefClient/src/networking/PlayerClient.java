@@ -2,12 +2,11 @@ package networking;
 
 import gui.App;
 import gui.Gui;
+
 import javafx.event.Event;
 import javafx.scene.input.KeyEvent;
-import logic.Player;
-import utility.PosXY;
-
-import utility.Generel;
+import beef_commons.logic.*;
+import beef_commons.utility.*;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -19,26 +18,42 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PlayerClient {
-    private static int port = 1234;
-    private static String[] board;
-    private static Socket connectionSocket;
-    private static BufferedReader inFromServer;
-    private static BufferedReader inFromClient = new BufferedReader(new InputStreamReader(System.in));
-    private static DataOutputStream outToServer;
+import static beef_commons.utility.Generel.constructBoard;
 
+non-sealed class PlayerClient extends ClientFieldCapsule {
 
-    public static void main(String[] args) throws IOException {
-        connectionSocket = new Socket("10.10.138.237", port );
-        inFromServer = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-        outToServer = new DataOutputStream(connectionSocket.getOutputStream());
-        System.out.println("Type ur name idiot");
-        String msg = inFromClient.readLine();
-        outToServer.writeBytes(msg + "\n");
-        recieveBoard();
+    public static void main(String[] args) {
+        //test
+        try {
+            PlayerClient pc1 = new PlayerClient();
+            while (true) {
+                // gør din ting, bby!
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public PlayerClient() throws IOException {
+        try {
+            port = 1234;
+            connectionSocket = new Socket("10.10.138.237", port );
+            inFromClient = new BufferedReader(new InputStreamReader(System.in));
+
+            System.out.println("Sei yuw naem, baka! UwU");
+            String msg = inFromClient.readLine();
+            outToServer.writeBytes(msg + "\n");
+
+            recieveBoard();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            outToServer.flush();
+        }
     }
 
-    public static void recieveBoard() throws IOException {
+
+
+    public void recieveBoard() throws IOException {
         System.out.println("Starting receive board");
         ArrayList<String> tempBoard = new ArrayList<>();
         boolean isDone = false;
@@ -54,6 +69,11 @@ public class PlayerClient {
         board = new String[tempBoard.size()];
         tempBoard.toArray(board);
         Generel.board = board;
+
+        if (Generel.board == null) {
+            Generel.board = constructBoard(20,20); //TODO for no-network testing
+        }
+
         System.out.println();
         for (int i = 0; i < board.length; i++) {
             System.out.println(board[i]);
@@ -90,5 +110,17 @@ public class PlayerClient {
         return action;
     }
 
+}
 
+sealed abstract class ClientFieldCapsule permits PlayerClient {
+    int port;
+    String[] board;
+    Socket connectionSocket;
+    BufferedReader inFromServer;
+    BufferedReader inFromClient;
+    DataOutputStream outToServer;
+
+    public ClientFieldCapsule() {
+
+    }
 }

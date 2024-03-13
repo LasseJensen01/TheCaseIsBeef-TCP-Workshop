@@ -1,6 +1,6 @@
-package utility;
+package beef_commons.utility;
 
-import logic.Player;
+import beef_commons.logic.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;

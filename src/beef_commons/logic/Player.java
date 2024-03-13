@@ -1,6 +1,6 @@
-package logic;
+package beef_commons.logic;
 
-import utility.*;
+import beef_commons.utility.*;
 
 public class Player {
 	String name;
@@ -14,7 +14,7 @@ public class Player {
 		this.facingDir = facingDir;
 		this.point = 0;
 	};
-	
+
 	public PosXY getPos() {
 		return this.pos;
 	}

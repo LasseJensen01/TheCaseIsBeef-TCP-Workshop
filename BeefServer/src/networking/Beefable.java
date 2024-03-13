@@ -1,7 +1,5 @@
 package networking;
 
-import logic.Player;
-
 public interface Beefable {
     //TODO opnå enighed om væsentligt ansvar og returtyper for Server
 
