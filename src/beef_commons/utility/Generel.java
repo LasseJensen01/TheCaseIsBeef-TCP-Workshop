@@ -9,6 +9,9 @@ public abstract class Generel {
 
 	}
 	public static  String[] board = new String[20]; // Board to hold randomly generated map.
+	public static void setBoard(String[] newBoard){
+		board = newBoard;
+	}
 	/*{    // 20x20
 			"wwwwwwwwwwwwwwwwwwww",
 			"w        ww        w",
