@@ -13,10 +13,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.media.Media;
+
+import java.io.File;
+
+import static javafx.util.Duration.INDEFINITE;
 
 public class Gui extends Application {
 
@@ -33,10 +39,14 @@ public class Gui extends Application {
 	/** The cells making up the maze */
 	private static Label[][] cells;
 	private TextArea taScoreArea;
-	
 
 
-	
+
+
+
+
+
+
 	// -------------------------------------------
 	// | Maze: (0,0)              | Score: (1,0) |
 	// |-----------------------------------------|
@@ -46,6 +56,12 @@ public class Gui extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		Media media = new Media(new File("Resources/Music/music.mp3").toURI().toString());
+		MediaPlayer player = new MediaPlayer(media);
+		player.setCycleCount(MediaPlayer.INDEFINITE);
+		player.setAutoPlay(true);
+
+
 		try {
 
 			initScene(primaryStage);
@@ -62,6 +78,8 @@ public class Gui extends Application {
 	}
 
 	private void initScene(Stage stage) throws Exception {
+
+
 		GridPane grid = new GridPane();
 		grid.setHgap(10);
 		grid.setVgap(10);
