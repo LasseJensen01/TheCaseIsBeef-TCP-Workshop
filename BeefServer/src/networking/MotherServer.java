@@ -114,26 +114,28 @@ non-sealed class MotherServer extends ServerFieldCapsule {
 
         for (int j = 0; j < inputs.size(); j++) {
             int i = 0;
-            inputs.get(i).split(","/*check it spits on the right thing */, -1);
+            inputs.get(i).split(",");
 
-            String name = words[0];
-            int posX = Integer.parseInt(words[1]);
-            int posY = Integer.parseInt(words[2]);
+            String name = words[1];
             String action = words[3];
+            Player p = playerThreads.get(name).getPlayer();
+            int posX = p.getXpos();
+            int posY = p.getYpos();
 
+            if (action.equals("moveUp")) {
+                posY--; // Fordi JavaFX er på crack så er
+                GameLogic.updatePlayer(p, posX, posY, "up");
+            } else if (action.equals("moveDown")) {
+                posY++; // Fordi JavaFX
+                GameLogic.updatePlayer(p, posX, posY, "down");
+            } else if (action.equals("moveLeft")) {
+                posX--; //Fordi
+                GameLogic.updatePlayer(p, posX, posY, "left");
+            } else if (action.equals("moveRight")) {
+                posX++; //Hvorfor...
+                GameLogic.updatePlayer(p, posX, posY, "right");
+            } else if (action.equals("quit")){
 
-            Player getPlayer = playerThreads.get(name).getPlayer();
-
-            if (getPlayer.getXpos() == posX && getPlayer.getYpos() == posY) {
-                return false;
-            } else if (action.equals("w")) {
-                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "up");
-            } else if (action.equals("s")) {
-                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "down");
-            } else if (action.equals("a")) {
-                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "left");
-            } else if (action.equals("d")) {
-                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "right");
             }
             i++;
         }
