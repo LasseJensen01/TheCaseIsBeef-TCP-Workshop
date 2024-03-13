@@ -1,6 +1,7 @@
 package networking;
 
 import logic.GameLogic;
+import logic.Player;
 import utility.Generel;
 import utility.PosXY;
 
@@ -82,6 +83,7 @@ public class MotherServer {
             int posX = Integer.parseInt(words[1]);
             int posY = Integer.parseInt(words[2]);
             String action = words[3];
+            Player getPlayer = playerThreads.get(name).getPlayer();
 
             if(action.equals("w")) {
                 GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "up");
@@ -97,4 +99,28 @@ public class MotherServer {
         }
         return false;
     }
+    public static boolean resolveOutcome2(ArrayList<String> inputs){
+        String[] words = new String[inputs.size()];
+
+        String name = words[0];
+        int posX = Integer.parseInt(words[1]);
+        int posY = Integer.parseInt(words[2]);
+        String action = words[3];
+
+        Player getPlayer = playerThreads.get(name).getPlayer();
+
+        if(getPlayer.getXpos() == posX && getPlayer.getYpos() == posY){
+            return false;
+        }else if(action.equals("w")){
+            GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "up");
+        }else if(action.equals("s")){
+            GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "down");
+        }else if(action.equals("a")){
+            GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "left");
+        }else if(action.equals("d")){
+            GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "right");
+        }
+        return false;
+    }
+
 }
