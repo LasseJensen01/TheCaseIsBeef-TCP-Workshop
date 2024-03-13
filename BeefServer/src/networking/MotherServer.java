@@ -109,7 +109,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         }
         return false;
     }
-    public static boolean resolveOutcome2(ArrayList<String> inputs){
+    public boolean resolveOutcome2(ArrayList<String> inputs){
         String[] words = new String[inputs.size()];
 
         String name = words[0];
@@ -133,7 +133,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         return false;
     }
 
-    public static ServerSocket getServerSocket() {
+    public ServerSocket getServerSocket() {
         return serverSocket;
     }
 }
