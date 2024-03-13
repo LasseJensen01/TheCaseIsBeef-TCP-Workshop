@@ -29,7 +29,6 @@ public class ServerListenerThread extends Thread{
                 if (input != null){
                     String[] temp = input.split(",");
                     String name = temp[1];
-                    String action = temp[3];
                     for (int i = inputs.size() - 1; i == 0 ; i--) {
                         if (inputs.get(i).contains("PLAYER,"+ name)){
                             inputs.remove(i);

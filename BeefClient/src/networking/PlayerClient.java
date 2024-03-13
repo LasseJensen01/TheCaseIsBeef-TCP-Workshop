@@ -25,7 +25,7 @@ non-sealed class PlayerClient extends ClientFieldCapsule {
     public static void main(String[] args) {
         //test
         try {
-            PlayerClient pc1 = new PlayerClient();
+            PlayerClient pc1 = new PlayerClient("192.168.1.186");
             while (true) {
                 // gør din ting, bby!
             }
@@ -33,10 +33,12 @@ non-sealed class PlayerClient extends ClientFieldCapsule {
             throw new RuntimeException(e);
         }
     }
-    public PlayerClient() throws IOException {
+    public PlayerClient(String IP) throws IOException {
         try {
             port = 1234;
-            connectionSocket = new Socket("10.10.138.237", port );
+            connectionSocket = new Socket(IP, port);
+            outToServer = new DataOutputStream(connectionSocket.getOutputStream());
+            inFromServer = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
             inFromClient = new BufferedReader(new InputStreamReader(System.in));
 
             System.out.println("Sei yuw naem, baka! UwU");
@@ -68,6 +70,7 @@ non-sealed class PlayerClient extends ClientFieldCapsule {
         System.out.println("Board read");
         board = new String[tempBoard.size()];
         tempBoard.toArray(board);
+
         Generel.board = board;
 
         if (Generel.board == null) {
