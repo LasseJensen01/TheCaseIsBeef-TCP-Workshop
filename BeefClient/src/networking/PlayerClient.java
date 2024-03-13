@@ -85,12 +85,10 @@ non-sealed class PlayerClient extends ClientFieldCapsule {
         Player thisPlayer = App.me;
 
         try {
-            String name = "PLAYER{"+thisPlayer.getName()+"}";
-            String currPos = "POS{"+thisPlayer.getPos().toString()+"}";
+            String name = "PLAYER,"+thisPlayer.getName()+",";
             String action = parseAction((KeyEvent) Gui.currentAction);
-            String points = "POINTS{"+thisPlayer.getPoints()+"}";
 
-            String updateMsg = name+currPos+action+points;
+            String updateMsg = name+action;
             outToServer.writeBytes(updateMsg); //SENDING UPDATE
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -99,13 +97,13 @@ non-sealed class PlayerClient extends ClientFieldCapsule {
     private String parseAction(KeyEvent event) {
         String action = null;
         switch (event.getCode()) {
-            case UP -> {action = "ACTION{moveUp}";}
-            case DOWN -> {action = "ACTION{moveDown}";}
-            case LEFT -> {action = "ACTION{moveLeft}";}
-            case RIGHT -> {action = "ACTION{moveRight}";}
-            case SPACE -> {action = "ACTION{shoot}";}
-            case ESCAPE -> {action = "ACTION{quit}";}
-            default -> {action = "ACTION{none}";}
+            case UP -> action = "ACTION,moveUp,";
+            case DOWN -> action = "ACTION,moveDown,";
+            case LEFT -> action = "ACTION,moveLeft,";
+            case RIGHT -> action = "ACTION,moveRight,";
+            case SPACE -> action = "ACTION,shoot,";
+            case ESCAPE -> action = "ACTION,quit,";
+            default -> action = "ACTION,none,";
         }
         return action;
     }
