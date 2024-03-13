@@ -123,6 +123,8 @@ non-sealed class PlayerClient extends ClientFieldCapsule {
         String direction = gameStateSplit[3];
         int points = Integer.parseInt(gameStateSplit[4]);
 
+        checkForNewPlayer(name);
+
         for(int i = 0; i < GameLogic.players.size(); i++){
             if(GameLogic.players.get(i).getName().equals(name)) {
                 GameLogic.updatePlayer(GameLogic.players.get(i), posX, posY, direction);
