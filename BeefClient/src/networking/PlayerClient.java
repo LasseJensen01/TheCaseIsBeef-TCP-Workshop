@@ -28,7 +28,7 @@ non-sealed class PlayerClient extends ClientFieldCapsule {
             PlayerClient pc1 = new PlayerClient("192.168.1.202");
 
             me = GameLogic.makePlayer("Jønke");
-            GameLogic.makeVirtualPlayer(); // to be removed
+            GameLogic.makeVirtualPlayer("Kaj"); // to be removed
             Application.launch(Gui.class);
 
         } catch (IOException e) {
