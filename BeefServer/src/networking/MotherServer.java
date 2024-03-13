@@ -36,7 +36,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         boot(port);
         while (isBeefing) {
             tick();
-            //Sleep?
+            //Sleep? Sleep!
         }
 
     }
