@@ -17,7 +17,9 @@ public class App {
 		System.out.println("Indtast spillernavn");
 		String navn = "Jønke"; //inFromUser.readLine();
 
-		if(Generel.board == null) Generel.board = Generel.constructBoard(20,20);
+		if(Generel.board[0] == null) {
+			Generel.board = Generel.constructBoard(20,20);
+		}
 
 		me = GameLogic.makePlayer(navn);
 		GameLogic.makeVirtualPlayer("Kaj"); // to be removed

@@ -23,9 +23,13 @@ non-sealed class MotherServer extends ServerFieldCapsule {
 
     public MotherServer() {
         try {
+            System.out.println("**MotherServer**");
+            System.out.println("Starting MotherServer");
             port = 1234;
             isBeefing = true;
+            System.out.println("Creating board");
             board = Generel.constructBoard(20,20);
+            Generel.setBoard(board);
             serverSocket = new ServerSocket(port);
             playerThreads = new HashMap<>();
             inFromServer = new BufferedReader(new InputStreamReader(System.in));
@@ -43,9 +47,9 @@ non-sealed class MotherServer extends ServerFieldCapsule {
     }
 
     public void boot(int port) {
-        System.out.println("Debog boot");
+        System.out.println("Initiating Boot Thread");
         Thread hostingThread = new Thread(() -> {
-            System.out.println("Boot thread made");
+            System.out.println("Boot thread made \n");
             while (isBeefing) {
                 initializePlayer();
             }
@@ -55,18 +59,23 @@ non-sealed class MotherServer extends ServerFieldCapsule {
 
     public void initializePlayer() {
         try {
+            System.out.println("**Initialize Player**");
+            System.out.println("Awaiting client connection...");
             Socket playerConnSocket = serverSocket.accept();
-            System.out.println("Starting playerInstance");
+            System.out.println("Connection made with " + playerConnSocket.getInetAddress().getHostAddress());
             PlayerInstance newPlayer = new PlayerInstance(playerConnSocket);
             playerThreads.put(newPlayer.getPlayer().getName(), newPlayer);
             DataOutputStream outToPlayer = new DataOutputStream(playerConnSocket.getOutputStream());
             // Send map and later game state to the new pleb
-            System.out.println("Reading Board");
+            System.out.println("Sending board to client");
             for (int i = 0; i < board.length; i++) {
                 outToPlayer.writeBytes(board[i] + "\n");
             }
             outToPlayer.writeBytes("quit" + "\n");
-            System.out.println("Map sent to client");
+            System.out.println("Map succesfullt sent \n");
+            System.out.println("Setting up listener for Clients inputs");
+            ServerListenerThread slt = new ServerListenerThread(playerConnSocket, newPlayer.getPlayer().getName(), input);
+            slt.start();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -187,6 +196,7 @@ sealed abstract class ServerFieldCapsule permits MotherServer {
     ServerSocket serverSocket;
     HashMap<String, PlayerInstance> playerThreads;
     String[] board;
+    ArrayList<String> input = new ArrayList<>();
 
     ServerFieldCapsule(){
 

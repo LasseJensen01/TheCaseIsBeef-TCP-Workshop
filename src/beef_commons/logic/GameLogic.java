@@ -8,8 +8,6 @@ import gui.Gui;
 import beef_commons.utility.Generel;
 import beef_commons.utility.PosXY;
 
-import static beef_commons.utility.Generel.constructBoard;
-
 
 public abstract class GameLogic {
 public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne stå her, eller henvise til en anden List?
@@ -35,8 +33,8 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 	 * 2) not occupied by other players  */
 	public static PosXY getRandomFreePosition()
 	{
-		if (Generel.board[0] == null) { //TODO for no-network testing
-			Generel.board = constructBoard(20,20);
+		if (Generel.board[0].isEmpty()) { //TODO for no-network testing
+			Generel.board = Generel.constructBoard(20,20);
 			System.out.println("Board is null: constructing new board.");
 		}
 

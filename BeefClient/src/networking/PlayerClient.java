@@ -3,6 +3,7 @@ package networking;
 import gui.App;
 import gui.Gui;
 
+import javafx.application.Application;
 import javafx.event.Event;
 import javafx.scene.input.KeyEvent;
 import beef_commons.logic.*;
@@ -18,31 +19,31 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static beef_commons.utility.Generel.constructBoard;
-
 non-sealed class PlayerClient extends ClientFieldCapsule {
+    static Player me;
 
     public static void main(String[] args) {
         //test
         try {
-            PlayerClient pc1 = new PlayerClient("192.168.1.186");
-            while (true) {
-                // gør din ting, bby!
-            }
+            PlayerClient pc1 = new PlayerClient("192.168.1.202");
+
+            me = GameLogic.makePlayer("Jønke");
+            GameLogic.makeVirtualPlayer(); // to be removed
+            Application.launch(Gui.class);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     public PlayerClient(String IP) throws IOException {
         try {
+            inFromClient = new BufferedReader(new InputStreamReader(System.in)); // Define the client reader
+            System.out.println("Sei yuw naem, baka! UwU"); //Type
+            String msg = inFromClient.readLine();
             port = 1234;
             connectionSocket = new Socket(IP, port);
             outToServer = new DataOutputStream(connectionSocket.getOutputStream());
             inFromServer = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-            inFromClient = new BufferedReader(new InputStreamReader(System.in));
-
-            System.out.println("Sei yuw naem, baka! UwU");
-            String msg = inFromClient.readLine();
             outToServer.writeBytes(msg + "\n");
 
             recieveBoard();
@@ -71,10 +72,10 @@ non-sealed class PlayerClient extends ClientFieldCapsule {
         board = new String[tempBoard.size()];
         tempBoard.toArray(board);
 
-        Generel.board = board;
+        Generel.setBoard(board);
 
-        if (Generel.board == null) {
-            Generel.board = constructBoard(20,20); //TODO for no-network testing
+        if (Generel.board[0] == null) {
+            Generel.board = Generel.constructBoard(20,20); //TODO for no-network testing
         }
 
         System.out.println();
