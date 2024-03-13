@@ -19,12 +19,17 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
+import networking.PlayerClient;
 
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.net.Socket;
 
 import static javafx.util.Duration.INDEFINITE;
 
 public class Gui extends Application {
+	public static PlayerClient pc;
 
 	public static final int size = 30; 
 	public static final int scene_height = size * 20 + 50;
@@ -128,11 +133,20 @@ public class Gui extends Application {
 		stage.setScene(scene);
 		stage.show();
 
+		Socket CUM = pc.connectionSocket;
+		String name = pc.me.getName();
+		DataOutputStream toListener = new DataOutputStream(CUM.getOutputStream());
+
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 			switch (event.getCode()) {
 				case UP -> {
 					playerMoved(0, -1, "up");
 					currentAction = event;
+					try {
+						toListener.writeBytes("PLAYER," + name + ",ACTION,moveUp");
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
 				}
 				case DOWN -> {
 					playerMoved(0, +1, "down");
@@ -196,7 +210,7 @@ public class Gui extends Application {
 			});
 	}
 	public void playerMoved(int delta_x, int delta_y, String facingDir) {
-		GameLogic.updatePlayer(App.me,delta_x,delta_y,facingDir);
+		GameLogic.updatePlayer(pc.me,delta_x,delta_y,facingDir);
 		updateScoreTable();
 	}
 	

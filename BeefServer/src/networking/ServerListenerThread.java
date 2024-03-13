@@ -26,6 +26,7 @@ public class ServerListenerThread extends Thread{
             String input;
             while (!socket.isClosed()){
                 input = inFromClient.readLine();
+                System.out.println("CUM " + input);
                 if (input != null){
                     String[] temp = input.split(",");
                     String name = temp[1];

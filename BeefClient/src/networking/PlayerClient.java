@@ -19,13 +19,14 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-non-sealed class PlayerClient extends ClientFieldCapsule {
-    static Player me;
+non-sealed public class PlayerClient extends ClientFieldCapsule {
+    public static Player me;
 
     public static void main(String[] args) {
         //test
         try {
             PlayerClient pc1 = new PlayerClient("192.168.1.202");
+            Gui.pc = pc1;
 
             me = GameLogic.makePlayer("Jønke");
             GameLogic.makeVirtualPlayer("Kaj"); // to be removed
@@ -147,7 +148,7 @@ non-sealed class PlayerClient extends ClientFieldCapsule {
 sealed abstract class ClientFieldCapsule permits PlayerClient {
     int port;
     String[] board;
-    Socket connectionSocket;
+    public Socket connectionSocket;
     BufferedReader inFromServer;
     BufferedReader inFromClient;
     DataOutputStream outToServer;
