@@ -111,6 +111,12 @@ non-sealed class PlayerClient extends ClientFieldCapsule {
         return action;
     }
 
+    public void recieveGamestate() {
+
+
+
+    }
+
 }
 
 sealed abstract class ClientFieldCapsule permits PlayerClient {

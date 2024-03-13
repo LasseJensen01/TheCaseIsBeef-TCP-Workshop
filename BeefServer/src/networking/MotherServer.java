@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 non-sealed class MotherServer extends ServerFieldCapsule {
@@ -142,6 +143,37 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         return false;
     }
 
+
+    public boolean shipGamestate() {
+
+        //Assemble Gamestate
+            //Pos(+ dir), point for hver spiller
+            //Skal kunne CRUD spillerbrikker hos hver modtagende spiller
+
+        String gameState = "";
+        ArrayList<PlayerInstance> instances = (ArrayList<PlayerInstance>) playerThreads.values().stream().toList();
+
+        for (PlayerInstance client : instances) {
+            Player player = client.getPlayer();
+
+            gameState += player.getName();
+            gameState += ",";
+            gameState += player.getXpos();
+            gameState += ",";
+            gameState += player.getYpos();
+            gameState += ",";
+            gameState += player.getFacingDir();
+            gameState += ",";
+            gameState += player.getPoints();
+        }
+
+        //Send Gamestate
+        for (PlayerInstance client : instances) {
+
+        }
+        //playerThreads.forEach();
+        return false;
+    }
 
     public ServerSocket getServerSocket() {
         return serverSocket;
