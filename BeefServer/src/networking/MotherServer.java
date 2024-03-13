@@ -109,29 +109,37 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         }
         return false;
     }
-    public boolean resolveOutcome2(ArrayList<String> inputs){
+    public boolean resolveOutcome2(ArrayList<String> inputs) {
         String[] words = new String[inputs.size()];
 
-        String name = words[0];
-        int posX = Integer.parseInt(words[1]);
-        int posY = Integer.parseInt(words[2]);
-        String action = words[3];
+        for (int j = 0; j < inputs.size(); j++) {
+            int i = 0;
+            inputs.get(i).split(","/*check it spits on the right thing */, -1);
 
-        Player getPlayer = playerThreads.get(name).getPlayer();
+            String name = words[0];
+            int posX = Integer.parseInt(words[1]);
+            int posY = Integer.parseInt(words[2]);
+            String action = words[3];
 
-        if(getPlayer.getXpos() == posX && getPlayer.getYpos() == posY){
-            return false;
-        }else if(action.equals("w")){
-            GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "up");
-        }else if(action.equals("s")){
-            GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "down");
-        }else if(action.equals("a")){
-            GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "left");
-        }else if(action.equals("d")){
-            GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "right");
+
+            Player getPlayer = playerThreads.get(name).getPlayer();
+
+            if (getPlayer.getXpos() == posX && getPlayer.getYpos() == posY) {
+                return false;
+            } else if (action.equals("w")) {
+                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "up");
+            } else if (action.equals("s")) {
+                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "down");
+            } else if (action.equals("a")) {
+                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "left");
+            } else if (action.equals("d")) {
+                GameLogic.updatePlayer(playerThreads.get(name).getPlayer(), posX, posY, "right");
+            }
+            i++;
         }
         return false;
     }
+
 
     public ServerSocket getServerSocket() {
         return serverSocket;
