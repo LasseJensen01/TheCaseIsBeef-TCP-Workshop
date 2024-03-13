@@ -43,7 +43,7 @@ public class ServerListenerThread extends Thread{
 
     }
 
-    private String[] parseIncomming(String input) {
+    private String[] parseIncomming(String input) { // Legacy code, AKA, what not to do.
         char[] toParse = input.toCharArray();
         String[] toReturn = new String[4];
 

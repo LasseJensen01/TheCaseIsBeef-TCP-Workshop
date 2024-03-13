@@ -1,12 +1,14 @@
-package logic;
+package beef_commons.logic;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import gui.Gui;
-import utility.Generel;
-import utility.PosXY;
+import beef_commons.utility.Generel;
+import beef_commons.utility.PosXY;
+
+import static beef_commons.utility.Generel.constructBoard;
 
 
 public abstract class GameLogic {
@@ -33,6 +35,11 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 	 * 2) not occupied by other players  */
 	public static PosXY getRandomFreePosition()
 	{
+		if (Generel.board[0] == null) { //TODO for no-network testing
+			Generel.board = constructBoard(20,20);
+			System.out.println("Board is null: constructing new board.");
+		}
+
 		int x = 1;
 		int y = 1;
 		boolean foundfreepos = false;
