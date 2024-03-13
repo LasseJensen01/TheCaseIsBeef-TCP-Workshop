@@ -23,8 +23,8 @@ public class MotherServer {
     private static String IP;
     private static boolean isBeefing = true;
     private static HashMap<String, PlayerInstance> playerThreads = new HashMap<>();
-    public static String[] board = Generel.constructBoard(20, 20);
-
+    public static String[] board = Generel.constructBoard(20,20);
+    public static ArrayList<String> inputs = new ArrayList<>();
     public static void main(String[] args) {
         try {
             IP = InetAddress.getLocalHost().getHostAddress();
@@ -123,4 +123,7 @@ public class MotherServer {
         return false;
     }
 
+    public static ServerSocket getServerSocket() {
+        return serverSocket;
+    }
 }
