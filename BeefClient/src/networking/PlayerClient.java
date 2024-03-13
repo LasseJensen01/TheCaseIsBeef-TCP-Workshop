@@ -111,13 +111,35 @@ non-sealed class PlayerClient extends ClientFieldCapsule {
         return action;
     }
 
-    public void recieveGamestate() {
+    public void recieveGamestate(String gameState) {
+        //nav, x pos, y pos, retning, point
+        //recieve gamestate skal tage højde for CRUD
+        String[] gameStateSplit = gameState.split(",");
 
+        String name = gameStateSplit[0];
+        int posX = Integer.parseInt(gameStateSplit[1]);
+        int posY = Integer.parseInt(gameStateSplit[2]);
+        String direction = gameStateSplit[3];
+        int points = Integer.parseInt(gameStateSplit[4]);
 
-
+        for(int i = 0; i < GameLogic.players.size(); i++){
+            if(GameLogic.players.get(i).getName().equals(name)) {
+                GameLogic.updatePlayer(GameLogic.players.get(i), posX, posY, direction);
+                GameLogic.setPoints(GameLogic.players.get(i), points);
+            }
+        }
     }
-
+    private void checkForNewPlayer(String name){
+        //hvis et navn ikke er der, skal vi tilføje en spiller
+        for(int i = 0; i < GameLogic.players.size(); i++){
+            if(GameLogic.players.get(i).getName() != name){
+                GameLogic.makeVirtualPlayer(name);
+            }//Should also handle if someone has disconnected
+        }
+    }
 }
+
+
 
 sealed abstract class ClientFieldCapsule permits PlayerClient {
     int port;

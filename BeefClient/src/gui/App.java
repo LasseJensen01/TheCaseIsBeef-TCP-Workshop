@@ -20,7 +20,7 @@ public class App {
 		if(Generel.board == null) Generel.board = Generel.constructBoard(20,20);
 
 		me = GameLogic.makePlayer(navn);
-		GameLogic.makeVirtualPlayer(); // to be removed
+		GameLogic.makeVirtualPlayer("Kaj"); // to be removed
 		Application.launch(Gui.class);
 	}
 }

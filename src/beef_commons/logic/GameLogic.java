@@ -24,9 +24,9 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 		return me;
 	};	
 	
-	public static void makeVirtualPlayer()	{    // just demo/testing player - not in real game 
+	public static void makeVirtualPlayer(String name)	{    // just demo/testing player - not in real game
 		PosXY pos = getRandomFreePosition();
-		Player kaj = new Player("Kaj",pos,"up");
+		Player kaj = new Player(name,pos,"up");
 		players.add(kaj);
 	}
 
@@ -100,8 +100,8 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 		}
 		return null;
 	}
-	
-	
-	
 
+	public static void setPoints(Player me, int points){
+		me.point = points;
+	}
 }
