@@ -10,11 +10,8 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 non-sealed class MotherServer extends ServerFieldCapsule {
     public static void main(String[] args) {
@@ -74,7 +71,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             outToPlayer.writeBytes("quit" + "\n");
             System.out.println("Map succesfullt sent \n");
             System.out.println("Setting up listener for Clients inputs");
-            ServerListenerThread slt = new ServerListenerThread(playerConnSocket, newPlayer.getPlayer().getName(), input);
+            ServerListenerThread slt = new ServerListenerThread(playerConnSocket, newPlayer.getPlayer().getName(), inputs);
             slt.start();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -82,7 +79,9 @@ non-sealed class MotherServer extends ServerFieldCapsule {
     }
 
     public void tick() {
-
+        resolveOutcome2(inputs);
+        inputs.clear();
+        while (!shipGamestate());
     }
 
     public boolean resolveOutcome(ArrayList<String> inputs) {
@@ -160,9 +159,6 @@ non-sealed class MotherServer extends ServerFieldCapsule {
     public boolean shipGamestate() {
 
         //Assemble Gamestate
-            //Pos(+ dir), point for hver spiller
-            //Skal kunne CRUD spillerbrikker hos hver modtagende spiller
-
         String gameState = "";
         ArrayList<PlayerInstance> instances = (ArrayList<PlayerInstance>) playerThreads.values().stream().toList();
 
@@ -178,14 +174,11 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             gameState += player.getFacingDir();
             gameState += ",";
             gameState += player.getPoints();
-        }
 
-        //Send Gamestate
-        for (PlayerInstance client : instances) {
-
+            //Send gamestate to client
+            client.returnGamestate(gameState);
         }
-        //playerThreads.forEach();
-        return false;
+        return true;
     }
 
     public ServerSocket getServerSocket() {
@@ -200,7 +193,7 @@ sealed abstract class ServerFieldCapsule permits MotherServer {
     ServerSocket serverSocket;
     HashMap<String, PlayerInstance> playerThreads;
     String[] board;
-    ArrayList<String> input = new ArrayList<>();
+    ArrayList<String> inputs = new ArrayList<>();
 
     ServerFieldCapsule(){
 

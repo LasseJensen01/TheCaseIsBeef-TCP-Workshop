@@ -16,7 +16,7 @@ public class PlayerInstance implements Runnable {
     private String latestInput;
     private Socket socket;
     private Thread thread;
-    private static int nr = 0;
+    private int nr = 0;
 
     public PlayerInstance(Socket socket) {
         nr++;
@@ -53,6 +53,15 @@ public class PlayerInstance implements Runnable {
     /** Polls the input buffer for this players latest action */
     public void readInput(){
 
+    }
+
+    public void returnGamestate(String gamestate) {
+        try {
+            DataOutputStream outToClient = new DataOutputStream(this.socket.getOutputStream());
+            outToClient.writeBytes(gamestate);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

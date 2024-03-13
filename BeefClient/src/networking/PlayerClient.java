@@ -135,10 +135,10 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     }
     private void checkForNewPlayer(String name){
         //hvis et navn ikke er der, skal vi tilføje en spiller
-        for(int i = 0; i < GameLogic.players.size(); i++){
-            if(GameLogic.players.get(i).getName() != name){
+        for(Player player : GameLogic.players){
+            if(player.getName() != name){
                 GameLogic.makeVirtualPlayer(name);
-            }//Should also handle if someone has disconnected
+            }//TODO Should also handle if someone has disconnected
         }
     }
 }

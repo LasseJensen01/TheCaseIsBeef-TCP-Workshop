@@ -26,7 +26,7 @@ public class ServerListenerThread extends Thread{
             String input;
             while (!socket.isClosed()){
                 input = inFromClient.readLine();
-                System.out.println("CUM " + input);
+                System.out.println(name +"," + input);
                 if (input != null){
                     String[] temp = input.split(",");
                     String name = temp[1];
@@ -42,6 +42,10 @@ public class ServerListenerThread extends Thread{
             throw new RuntimeException(e);
         }
 
+    }
+
+    public ArrayList<String> getInputs() {
+        return inputs;
     }
 
     private String[] parseIncomming(String input) { // Legacy code, AKA, what not to do.
