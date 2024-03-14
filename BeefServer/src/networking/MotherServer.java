@@ -79,9 +79,9 @@ non-sealed class MotherServer extends ServerFieldCapsule {
     }
 
     public void tick() {
-        resolveOutcome2(inputs);
-        inputs.clear();
-        while (!shipGamestate());
+//        resolveOutcome2(inputs);
+//        inputs.clear();
+//        while (!shipGamestate());
     }
 
     public boolean resolveOutcome(ArrayList<String> inputs) {

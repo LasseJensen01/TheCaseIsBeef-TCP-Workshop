@@ -25,7 +25,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     public static void main(String[] args) {
         //test
         try {
-            PlayerClient pc1 = new PlayerClient("192.168.1.202");
+            PlayerClient pc1 = new PlayerClient("10.10.138.149");
             Gui.pc = pc1;
 
             me = GameLogic.makePlayer("Jønke");
