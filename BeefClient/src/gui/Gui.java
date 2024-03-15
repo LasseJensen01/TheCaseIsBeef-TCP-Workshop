@@ -133,9 +133,9 @@ public class Gui extends Application {
 		stage.setScene(scene);
 		stage.show();
 
-		Socket CUM = pc.connectionSocket;
+		Socket connecSock = pc.connectionSocket;
 		String name = pc.me.getName();
-		DataOutputStream toListener = new DataOutputStream(CUM.getOutputStream());
+		DataOutputStream toListener = new DataOutputStream(connecSock.getOutputStream());
 
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 			switch (event.getCode()) {

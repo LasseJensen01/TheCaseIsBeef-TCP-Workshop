@@ -22,6 +22,7 @@ public class ServerListenerThread extends Thread{
     @Override
     public void run() {
         try {
+            System.out.println("SLT Debug");
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String input;
             while (!socket.isClosed()){
