@@ -22,22 +22,31 @@ public class ServerListenerThread extends Thread{
     @Override
     public void run() {
         try {
-            System.out.println("SLT Debug");
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String input;
+            boolean hasMoved = false;
             while (!socket.isClosed()){
+                /*TODO Optimize the way first move is recorded and how move pr. tick is replaced/updated
+                   if a player sends more than one move pr. tick
+                */
                 input = inFromClient.readLine();
-                System.out.println(name + "," + input);
+                System.out.println(input);
                 if (input != null){
                     String[] temp = input.split(",");
                     String name = temp[1];
-                    for (int i = inputs.size() - 1; i == 0 ; i--) {
+                    for (int i = inputs.size() - 1; i == 0 && hasMoved ; i--) {
                         if (inputs.get(i).contains("PLAYER,"+ name)){
                             inputs.remove(i);
                             inputs.add(input);
-                        }else inputs.add(input);
+                            break;
+                        }
+                    }
+                    if (!hasMoved){
+                        inputs.add(input);
+                        hasMoved = true;
                     }
                 }
+                System.out.println(inputs.size());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -25,10 +25,10 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     public static void main(String[] args) {
         //test
         try {
-            PlayerClient pc1 = new PlayerClient("10.10.138.149");
+            PlayerClient pc1 = new PlayerClient("10.10.138.187");
             Gui.pc = pc1;
 
-            me = GameLogic.makePlayer("Jønke");
+            me = GameLogic.makePlayer("Player1");
             GameLogic.makeVirtualPlayer("Kaj"); // to be removed
             Application.launch(Gui.class);
 

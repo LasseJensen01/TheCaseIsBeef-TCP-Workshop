@@ -143,7 +143,7 @@ public class Gui extends Application {
 					playerMoved(0, -1, "up");
 					currentAction = event;
 					try {
-						toListener.writeBytes("PLAYER," + name + ",ACTION,moveUp");
+						toListener.writeBytes("PLAYER," + name + ",ACTION,moveUp" + "\n");
 					} catch (IOException e) {
 						throw new RuntimeException(e);
 					}
@@ -151,20 +151,47 @@ public class Gui extends Application {
 				case DOWN -> {
 					playerMoved(0, +1, "down");
 					currentAction = event;
+					try {
+						toListener.writeBytes("PLAYER," + name + ",ACTION,moveDown" + "\n");
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
 				}
 				case LEFT -> {
 					playerMoved(-1, 0, "left");
 					currentAction = event;
+					try {
+						toListener.writeBytes("PLAYER," + name + ",ACTION,moveLeft" + "\n");
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
 				}
 				case RIGHT -> {
 					playerMoved(+1, 0, "right");
 					currentAction = event;
+					try {
+						toListener.writeBytes("PLAYER," + name + ",ACTION,moveRight" + "\n");
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
 				}
 				case SPACE ->  {
 					// playerAttack();
 					currentAction = event;
+					try {
+						toListener.writeBytes("PLAYER," + name + ",ACTION,Shoot" + "\n");
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
 				}
-				case ESCAPE -> System.exit(0);
+				case ESCAPE -> {
+					try {
+						toListener.writeBytes("PLAYER," + name + ",ACTION,quit" + "\n");
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+					System.exit(0);
+				}
 				default -> {}
 			}
 		});

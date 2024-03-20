@@ -15,7 +15,7 @@ public class App {
 	public static void main(String[] args) throws Exception{	
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Indtast spillernavn");
-		String navn = "Jønke"; //inFromUser.readLine();
+		String navn = "Player1"; //inFromUser.readLine();
 
 		if(Generel.board[0] == null) {
 			Generel.board = Generel.constructBoard(20,20);
