@@ -42,6 +42,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         }
         boot(port);
         while (isBeefing) {
+            System.out.println("tick");
             tick2(500.00);
             //Sleep? Sleep!
         }
