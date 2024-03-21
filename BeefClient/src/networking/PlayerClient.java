@@ -25,10 +25,9 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     public static void main(String[] args) {
         //test
         try {
-            PlayerClient pc1 = new PlayerClient("10.10.138.187");
+            PlayerClient pc1 = new PlayerClient("192.168.0.230");
             Gui.pc = pc1;
 
-            me = GameLogic.makePlayer("Player1");
             GameLogic.makeVirtualPlayer("Kaj"); // to be removed
             Application.launch(Gui.class);
 
@@ -48,6 +47,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
             outToServer.writeBytes(msg + "\n");
 
             recieveBoard();
+            me = GameLogic.makePlayer(msg);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
@@ -86,15 +86,10 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
         System.out.println();
     }
 
-    public void declareAction() {
-        Player thisPlayer = App.me;
-
+    public void declareAction(String action) {
         try {
-            String name = "PLAYER,"+thisPlayer.getName()+",";
-            String action = parseAction((KeyEvent) Gui.currentAction);
-
-            String updateMsg = name+action;
-            outToServer.writeBytes(updateMsg); //SENDING UPDATE
+            String msg = "PLAYER,"+ me.getName() + ",ACTION," + action;
+            outToServer.writeBytes(msg + "\n"); //SENDING UPDATE
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

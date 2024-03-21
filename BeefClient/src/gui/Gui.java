@@ -133,63 +133,36 @@ public class Gui extends Application {
 		stage.setScene(scene);
 		stage.show();
 
-		Socket connecSock = pc.connectionSocket;
-		String name = pc.me.getName();
-		DataOutputStream toListener = new DataOutputStream(connecSock.getOutputStream());
-
+		//TODO all playerMoved() methods to be removed since MotherServer updates gamestate to all players
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 			switch (event.getCode()) {
 				case UP -> {
-					playerMoved(0, -1, "up");
+					playerMoved(0, -1, "up"); //Too bee removed
 					currentAction = event;
-					try {
-						toListener.writeBytes("PLAYER," + name + ",ACTION,moveUp" + "\n");
-					} catch (IOException e) {
-						throw new RuntimeException(e);
-					}
+					pc.declareAction("moveUP");
 				}
 				case DOWN -> {
 					playerMoved(0, +1, "down");
 					currentAction = event;
-					try {
-						toListener.writeBytes("PLAYER," + name + ",ACTION,moveDown" + "\n");
-					} catch (IOException e) {
-						throw new RuntimeException(e);
-					}
+					pc.declareAction("moveDown");
 				}
 				case LEFT -> {
 					playerMoved(-1, 0, "left");
 					currentAction = event;
-					try {
-						toListener.writeBytes("PLAYER," + name + ",ACTION,moveLeft" + "\n");
-					} catch (IOException e) {
-						throw new RuntimeException(e);
-					}
+					pc.declareAction("moveLeft");
 				}
 				case RIGHT -> {
 					playerMoved(+1, 0, "right");
 					currentAction = event;
-					try {
-						toListener.writeBytes("PLAYER," + name + ",ACTION,moveRight" + "\n");
-					} catch (IOException e) {
-						throw new RuntimeException(e);
-					}
+					pc.declareAction("moveRight");
 				}
 				case SPACE ->  {
 					// playerAttack();
 					currentAction = event;
-					try {
-						toListener.writeBytes("PLAYER," + name + ",ACTION,Shoot" + "\n");
-					} catch (IOException e) {
-						throw new RuntimeException(e);
-					}
+					pc.declareAction("Shoot");
 				}
 				case ESCAPE -> {
-					try {
-						toListener.writeBytes("PLAYER," + name + ",ACTION,quit" + "\n");
-					} catch (IOException e) {
-						throw new RuntimeException(e);
-					}
+					pc.declareAction("Quit");
 					System.exit(0);
 				}
 				default -> {}
