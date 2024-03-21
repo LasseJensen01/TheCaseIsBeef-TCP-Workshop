@@ -21,17 +21,18 @@ public class ServerListenerThread extends Thread{
 
     @Override
     public void run() {
+        boolean isOpen = true;
         try {
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String input;
             boolean hasMoved = false;
-            while (!socket.isClosed()){
+            while (isOpen){
                 /*TODO Optimize the way first move is recorded and how move pr. tick is replaced/updated
                    if a player sends more than one move pr. tick
                 */
                 input = inFromClient.readLine();
-                System.out.println(input);
                 if (input != null){
+                    System.out.println(input);
                     String[] temp = input.split(",");
                     String name = temp[1];
                     for (int i = inputs.size() - 1; i == 0 && hasMoved ; i--) {
@@ -48,8 +49,9 @@ public class ServerListenerThread extends Thread{
                 }
                 System.out.println(inputs.size());
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.err.println("Error thrown in SLT Thread: " + this.getId());
+            isOpen = false;
         }
 
     }
@@ -57,8 +59,6 @@ public class ServerListenerThread extends Thread{
     private String[] parseIncomming(String input) { // Legacy code, AKA, what not to do.
         char[] toParse = input.toCharArray();
         String[] toReturn = new String[4];
-
-
         int i = 0;
         int value = 0;
         for (char c : toParse) {
