@@ -41,11 +41,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             System.err.println("fucky wucky");
         }
         boot(port);
-        while (isBeefing) {
-            System.out.println("tick");
-            tick2(500.00);
-            //Sleep? Sleep!
-        }
+        tick2(500.00);
 
     }
 
@@ -97,8 +93,8 @@ non-sealed class MotherServer extends ServerFieldCapsule {
     }
 
     public synchronized void tick2(Double firmTime){
-
             while(isBeefing){
+                System.out.println("tick");
                 LocalTime gamestateTime = LocalTime.now();
                 resolveOutcome2();
                 shipGamestate();

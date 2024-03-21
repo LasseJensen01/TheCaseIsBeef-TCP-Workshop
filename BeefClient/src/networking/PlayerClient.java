@@ -48,6 +48,8 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
 
             recieveBoard();
             me = GameLogic.makePlayer(msg);
+            GameStateReceiveThread t1 = new GameStateReceiveThread();
+            t1.start();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
@@ -136,6 +138,43 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
             }//TODO Should also handle if someone has disconnected
         }
     }
+    private class GameStateReceiveThread extends Thread{
+        @Override
+        public void run() {
+            try {
+                System.out.println("GameStateReceiveThread Running");
+                String input  = "";
+                while (!connectionSocket.isClosed()){
+                    System.out.println("debug");
+                    input = inFromServer.readLine();
+                    System.out.println("debug2");
+                    String[] playerState = input.split(",");
+
+                    //Updating
+                    // Received String is formed as: Name, xPos, yPos, facingDir, Point
+                    // Seperated by ',' so using split function of a string
+                    Player p = null;
+                    for (Player pl : GameLogic.players){
+                        if (pl.getName().equals(playerState[0])) p = pl;
+                    }
+                    int xPos = Integer.parseInt(playerState[1]);
+                    int yPos = Integer.parseInt(playerState[2]);
+                    int points = Integer.parseInt(playerState[4]);
+
+                    if (p != null){
+                        GameLogic.updatePlayer(p,xPos, yPos, playerState[3]);
+                        GameLogic.setPoints(p,points);
+                    }
+                }
+                System.out.println("GameStateReceiveThread Ending");
+
+            }catch (Exception e){
+
+            }
+
+        }
+    }
+
 }
 
 

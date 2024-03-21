@@ -58,7 +58,7 @@ public class PlayerInstance implements Runnable {
     public void returnGamestate(String gamestate) {
         try {
             DataOutputStream outToClient = new DataOutputStream(this.socket.getOutputStream());
-            outToClient.writeBytes(gamestate);
+            outToClient.writeBytes(gamestate + "\n");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
