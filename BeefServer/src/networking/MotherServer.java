@@ -97,6 +97,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
     public void tick2(Double firmTime) throws InterruptedException {
         while(isBeefing){
             LocalTime gamestateTime = LocalTime.now();
+            resolveOutcome2();
             shipGamestate();
             LocalTime timeSpent = LocalTime.now();
             Long deltaTime = timeSpent.toNanoOfDay() - gamestateTime.toNanoOfDay();
@@ -142,7 +143,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         }
         return false;
     }
-    public boolean resolveOutcome2(ArrayList<String> inputs) {
+    public boolean resolveOutcome2() {
         String[] words = new String[inputs.size()];
 
         for (int j = 0; j < inputs.size(); j++) {
@@ -157,16 +158,16 @@ non-sealed class MotherServer extends ServerFieldCapsule {
 
             if (action.equals("moveUp")) {
                 posY--; // Fordi JavaFX er på crack så er
-                GameLogic.updatePlayer(p, posX, posY, "up");
+                GameLogic.updatePlayer(p, 0, -1, "up");
             } else if (action.equals("moveDown")) {
                 posY++; // Fordi JavaFX
-                GameLogic.updatePlayer(p, posX, posY, "down");
+                GameLogic.updatePlayer(p, 0, 1, "down");
             } else if (action.equals("moveLeft")) {
                 posX--; //Fordi
-                GameLogic.updatePlayer(p, posX, posY, "left");
+                GameLogic.updatePlayer(p, -1, 0, "left");
             } else if (action.equals("moveRight")) {
                 posX++; //Hvorfor...
-                GameLogic.updatePlayer(p, posX, posY, "right");
+                GameLogic.updatePlayer(p, 1, 0, "right");
             } else if (action.equals("quit")){
                 for(int k = 0; k < GameLogic.players.size(); k++){
                     GameLogic.players.remove(p);
