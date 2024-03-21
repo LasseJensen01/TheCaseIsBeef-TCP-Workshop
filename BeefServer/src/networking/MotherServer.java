@@ -119,11 +119,8 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         return false;
     }
     public boolean resolveOutcome2(ArrayList<String> inputs) {
-        String[] words = new String[inputs.size()];
-
-        for (int j = 0; j < inputs.size(); j++) {
-            int i = 0;
-            inputs.get(i).split(",");
+        for (int i = 0; i < inputs.size(); i++) {
+            String[] words = inputs.get(i).split(",");
 
             String name = words[1];
             String action = words[3];
@@ -145,12 +142,9 @@ non-sealed class MotherServer extends ServerFieldCapsule {
                 GameLogic.updatePlayer(p, posX, posY, "right");
             } else if (action.equals("quit")){
                 for(int k = 0; k < GameLogic.players.size(); k++){
-                    if(GameLogic.players.get(i).getName().equals(name)){
-                        GameLogic.players.remove(GameLogic.players.get((i)));
-                    }
+                    GameLogic.players.remove(p);
                 }
             }
-            i++;
         }
         return false;
     }
