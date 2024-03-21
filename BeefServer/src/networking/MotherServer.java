@@ -10,9 +10,12 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 non-sealed class MotherServer extends ServerFieldCapsule {
     public static void main(String[] args) {
@@ -87,6 +90,19 @@ non-sealed class MotherServer extends ServerFieldCapsule {
                 TimeUnit.MILLISECONDS.sleep(tickRateMs);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void tick2(Double firmTime) throws InterruptedException {
+        while(isBeefing){
+            LocalTime gamestateTime = LocalTime.now();
+            shipGamestate();
+            LocalTime timeSpent = LocalTime.now();
+            Long deltaTime = timeSpent.toNanoOfDay() - gamestateTime.toNanoOfDay();
+
+            if(firmTime >= deltaTime){
+                wait((long) (firmTime - deltaTime));
             }
         }
     }
