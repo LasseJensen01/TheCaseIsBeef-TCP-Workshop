@@ -137,22 +137,22 @@ public class Gui extends Application {
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 			switch (event.getCode()) {
 				case UP -> {
-					playerMoved(0, -1, "up"); //Too bee removed
+					// playerMoved(0, -1, "up"); //Too bee removed
 					currentAction = event;
 					pc.declareAction("moveUP");
 				}
 				case DOWN -> {
-					playerMoved(0, +1, "down");
+					// playerMoved(0, +1, "down");
 					currentAction = event;
 					pc.declareAction("moveDown");
 				}
 				case LEFT -> {
-					playerMoved(-1, 0, "left");
+					// playerMoved(-1, 0, "left");
 					currentAction = event;
 					pc.declareAction("moveLeft");
 				}
 				case RIGHT -> {
-					playerMoved(+1, 0, "right");
+					// playerMoved(+1, 0, "right");
 					currentAction = event;
 					pc.declareAction("moveRight");
 				}
