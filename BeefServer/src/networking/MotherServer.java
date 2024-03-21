@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -41,7 +42,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         }
         boot(port);
         while (isBeefing) {
-            tick(500);
+            tick2(500.00);
             //Sleep? Sleep!
         }
 
@@ -94,17 +95,23 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         }
     }
 
-    public void tick2(Double firmTime) throws InterruptedException {
-        while(isBeefing){
-            LocalTime gamestateTime = LocalTime.now();
-            shipGamestate();
-            LocalTime timeSpent = LocalTime.now();
-            Long deltaTime = timeSpent.toNanoOfDay() - gamestateTime.toNanoOfDay();
+    public synchronized void tick2(Double firmTime){
 
-            if(firmTime >= deltaTime){
-                wait((long) (firmTime - deltaTime));
+            while(isBeefing){
+                LocalTime gamestateTime = LocalTime.now();
+                resolveOutcome2();
+                shipGamestate();
+                LocalTime timeSpent = LocalTime.now();
+                Long deltaTime = timeSpent.toNanoOfDay() - gamestateTime.toNanoOfDay();
+                try {
+                    if(firmTime >= deltaTime){
+                        wait((long) (firmTime - deltaTime));
+                    }
+                }catch (Exception e){
+                    System.err.println("Exception in tick2: " + e);
+                }
+
             }
-        }
     }
 
 
@@ -142,12 +149,9 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         }
         return false;
     }
-    public boolean resolveOutcome2(ArrayList<String> inputs) {
-        String[] words = new String[inputs.size()];
-
-        for (int j = 0; j < inputs.size(); j++) {
-            int i = 0;
-            inputs.get(i).split(",");
+    public boolean resolveOutcome2() {
+        for (int i = 0; i < inputs.size(); i++) {
+           String[] words = inputs.get(i).split(",");
 
             String name = words[1];
             String action = words[3];
@@ -181,7 +185,8 @@ non-sealed class MotherServer extends ServerFieldCapsule {
 
         //Assemble Gamestate
         String gameState = "";
-        ArrayList<PlayerInstance> instances = (ArrayList<PlayerInstance>) playerThreads.values().stream().toList();
+        List<PlayerInstance> instances = playerThreads.values().stream().toList();
+
 
         for (PlayerInstance client : instances) {
             Player player = client.getPlayer();
