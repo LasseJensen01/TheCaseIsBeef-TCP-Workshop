@@ -155,6 +155,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
             }
 
         }
+        // Should probably rename this to something more accurate
         private void addNewPlayerToGUI(String name, PosXY posXY){
             Player p = new Player(name, posXY, "up");
             GameLogic.players.add(p);
