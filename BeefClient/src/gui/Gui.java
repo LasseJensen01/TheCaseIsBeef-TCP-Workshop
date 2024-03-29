@@ -45,7 +45,7 @@ public class Gui extends Application {
 	
 	/** The cells making up the maze */
 	private static Label[][] cells;
-	private TextArea taScoreArea;
+	private static TextArea taScoreArea;
 
 
 
@@ -172,18 +172,6 @@ public class Gui extends Application {
 				default -> {}
 			}
 		});
-		updateScoreThread t1 = new updateScoreThread();
-		t1.start();
-	}
-
-	private class updateScoreThread extends Thread{
-
-		@Override
-		public void run() {
-			while(running){
-				taScoreArea.setText(getTaScoreArea());
-			}
-		}
 	}
 	
 	public static void removePlayerOnScreen(PosXY oldPos) {
@@ -220,7 +208,7 @@ public class Gui extends Application {
 	}
 
 
-	public void updateScoreTable()
+	public static void updateScoreTable()
 	{
 		Platform.runLater(() -> {
 			taScoreArea.setText(getTaScoreArea());
@@ -231,12 +219,14 @@ public class Gui extends Application {
 		updateScoreTable();
 	}
 	
-	public String getTaScoreArea() {
-		String r = "";
+	public static String getTaScoreArea() {
+		StringBuffer str = new StringBuffer(100);
+		//String r = "";
 		for (Player p : GameLogic.players){
-			r += p.toString() + "\n";
+			str.append(p.toString() + "\n");
+			//r += p.toString() + "\n";
 		}
-		return r;
+		return str.toString();
 	}
 }
 

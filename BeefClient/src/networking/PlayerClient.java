@@ -174,7 +174,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                             Gui.movePlayerOnScreen(oldPos,newPos, playerState[3]);
                             p.setPos(newPos);
                             p.setPoints(points);
-                            System.out.println(p.toString());
+                            Gui.updateScoreTable();
                         }
                     }
                     System.out.println(connectionSocket.isClosed());
