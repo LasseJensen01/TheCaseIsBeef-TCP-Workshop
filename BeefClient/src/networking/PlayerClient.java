@@ -124,12 +124,8 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                 String input  = "";
                 TimeUnit.SECONDS.sleep(1);
                 while (!connectionSocket.isClosed()){
-                   // System.out.println("Connection established: " + !connectionSocket.isClosed());
                     input = inFromServer.readLine();
                     System.out.println(input);
-                    System.out.println(connectionSocket.isClosed());
-                    // System.out.println(input);
-                    //System.out.println("debug2");
                     String[] playerState = input.split(",");
 
                     //Updating
@@ -148,24 +144,21 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                             p.setPos(newPos);
                             p.setPoints(points);
                             Gui.updateScoreTable();
-                        }
+                        } else addNewPlayerToGUI(playerState[0], newPos); // Should add a new player onto into the gui alongside you
                     }
                     System.out.println(connectionSocket.isClosed());
                 }
                 System.out.println("GameStateReceiveThread Ending");
 
             }catch (Exception e){
-
+                System.err.println("Error in GSRT Thread: " + e);
             }
 
         }
-        private void checkForNewPlayer(String name, PosXY posXY){
-            //hvis et navn ikke er der, skal vi tilføje en spiller
-            for(Player player : GameLogic.players){
-                if(player.getName() != name){
-                    Player p = new Player(name, posXY, "up");
-                }//TODO Should also handle if someone has disconnected
-            }
+        private void addNewPlayerToGUI(String name, PosXY posXY){
+            Player p = new Player(name, posXY, "up");
+            GameLogic.players.add(p);
+            Gui.placePlayerOnScreen(p.getPos(), "up");
         }
     }
 
