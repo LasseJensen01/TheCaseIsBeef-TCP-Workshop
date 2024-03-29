@@ -152,10 +152,8 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                 TimeUnit.SECONDS.sleep(1);
                 while (!connectionSocket.isClosed()){
                    // System.out.println("Connection established: " + !connectionSocket.isClosed());
-                    System.out.println("debug GSRT");
                     input = inFromServer.readLine();
                     System.out.println(input);
-                    System.out.println("debug GSRT");
                     System.out.println(connectionSocket.isClosed());
                     // System.out.println(input);
                     //System.out.println("debug2");
@@ -176,6 +174,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                             Gui.movePlayerOnScreen(oldPos,newPos, playerState[3]);
                             p.setPos(newPos);
                             p.setPoints(points);
+                            System.out.println(p.toString());
                         }
                     }
                     System.out.println(connectionSocket.isClosed());

@@ -78,7 +78,7 @@ public class Gui extends Application {
 			for (int i = 0; i < GameLogic.players.size(); i++) {
 			  cells[GameLogic.players.get(i).getXpos()][GameLogic.players.get(i).getYpos()].setGraphic(new ImageView(hero_up));
 			}
-			taScoreArea.setText(getTaScoreArea());
+			// taScoreArea.setText(getTaScoreArea());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -136,9 +136,6 @@ public class Gui extends Application {
 		stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();
 
-		updateScoreThread t1 = new updateScoreThread();
-		t1.start();
-
 		//TODO all playerMoved() methods to be removed since MotherServer updates gamestate to all players
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 			switch (event.getCode()) {
@@ -175,6 +172,8 @@ public class Gui extends Application {
 				default -> {}
 			}
 		});
+		updateScoreThread t1 = new updateScoreThread();
+		t1.start();
 	}
 
 	private class updateScoreThread extends Thread{
@@ -182,7 +181,7 @@ public class Gui extends Application {
 		@Override
 		public void run() {
 			while(running){
-				updateScoreTable();
+				taScoreArea.setText(getTaScoreArea());
 			}
 		}
 	}
@@ -233,12 +232,11 @@ public class Gui extends Application {
 	}
 	
 	public String getTaScoreArea() {
-		StringBuffer b = new StringBuffer(100);
-		for (Player p : GameLogic.players) {
-			b.append(p+"\r\n");
+		String r = "";
+		for (Player p : GameLogic.players){
+			r += p.toString() + "\n";
 		}
-		return b.toString();
+		return r;
 	}
-
 }
 
