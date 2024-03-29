@@ -94,6 +94,9 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
         try {
             String msg = "PLAYER,"+ me.getName() + ",ACTION," + action;
             outToServer.writeBytes(msg + "\n"); //SENDING UPDATE
+            if (action.equalsIgnoreCase("Quit")){
+                connectionSocket.close();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -172,10 +175,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                             PosXY oldPos = new PosXY(p.getXpos(), p.getYpos());
                             Gui.movePlayerOnScreen(oldPos,newPos, playerState[3]);
                             p.setPos(newPos);
-                            System.out.println("Fuck");
-                            // GameLogic.updatePlayer(p,xPos, yPos, playerState[3]);
                             p.setPoints(points);
-                            System.out.println("debug GSRT");
                         }
                     }
                     System.out.println(connectionSocket.isClosed());

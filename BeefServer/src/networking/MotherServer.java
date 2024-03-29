@@ -184,6 +184,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             } else if (action.equals("quit")){
                 for(int k = 0; k < GameLogic.players.size(); k++){
                     GameLogic.players.remove(p);
+                    playerThreads.remove(p.getName());
                 }
             }
         }

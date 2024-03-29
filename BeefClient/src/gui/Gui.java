@@ -19,6 +19,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
+import javafx.stage.StageStyle;
 import networking.PlayerClient;
 
 import java.io.DataOutputStream;
@@ -131,6 +132,7 @@ public class Gui extends Application {
 
 		Scene scene = new Scene(grid, scene_width, scene_height);
 		stage.setScene(scene);
+		stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();
 
 		//TODO all playerMoved() methods to be removed since MotherServer updates gamestate to all players
@@ -202,9 +204,8 @@ public class Gui extends Application {
 		removePlayerOnScreen(oldpos);
 		placePlayerOnScreen(newpos,direction);
 	}
-	
 
-	
+
 	public void updateScoreTable()
 	{
 		Platform.runLater(() -> {

@@ -39,9 +39,11 @@ public class ServerListenerThread extends Thread{
                     }
                     inputs.add(input);
 
-                }
+                } else isOpen = false;
                 System.out.println(inputs.size());
             }
+            inFromClient.close();
+            socket.close();
         } catch (Exception e) {
             System.err.println("Error thrown in SLT Thread: " + this.getId());
             isOpen = false;
