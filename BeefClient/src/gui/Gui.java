@@ -40,11 +40,12 @@ public class Gui extends Application {
 	public static Image image_wall;
 	public static Image hero_right,hero_left,hero_up,hero_down;
 	public static Event currentAction;
+	public boolean running = true;
 
 	
 	/** The cells making up the maze */
 	private static Label[][] cells;
-	private TextArea taScoreArea;
+	private static TextArea taScoreArea;
 
 
 
@@ -77,7 +78,7 @@ public class Gui extends Application {
 			for (int i = 0; i < GameLogic.players.size(); i++) {
 			  cells[GameLogic.players.get(i).getXpos()][GameLogic.players.get(i).getYpos()].setGraphic(new ImageView(hero_up));
 			}
-			taScoreArea.setText(getTaScoreArea());
+			// taScoreArea.setText(getTaScoreArea());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -166,6 +167,7 @@ public class Gui extends Application {
 				case ESCAPE -> {
 					pc.declareAction("Quit");
 					System.exit(0);
+					running = false;
 				}
 				default -> {}
 			}
@@ -206,7 +208,7 @@ public class Gui extends Application {
 	}
 
 
-	public void updateScoreTable()
+	public static void updateScoreTable()
 	{
 		Platform.runLater(() -> {
 			taScoreArea.setText(getTaScoreArea());
@@ -217,13 +219,14 @@ public class Gui extends Application {
 		updateScoreTable();
 	}
 	
-	public String getTaScoreArea() {
-		StringBuffer b = new StringBuffer(100);
-		for (Player p : GameLogic.players) {
-			b.append(p+"\r\n");
+	public static String getTaScoreArea() {
+		StringBuffer str = new StringBuffer(100);
+		//String r = "";
+		for (Player p : GameLogic.players){
+			str.append(p.toString() + "\n");
+			//r += p.toString() + "\n";
 		}
-		return b.toString();
+		return str.toString();
 	}
-
 }
 
