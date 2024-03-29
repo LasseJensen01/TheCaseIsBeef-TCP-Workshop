@@ -171,6 +171,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                         if (p != null){
                             PosXY oldPos = new PosXY(p.getXpos(), p.getYpos());
                             Gui.movePlayerOnScreen(oldPos,newPos, playerState[3]);
+                            p.setPos(newPos);
                             System.out.println("Fuck");
                             // GameLogic.updatePlayer(p,xPos, yPos, playerState[3]);
                             p.setPoints(points);
