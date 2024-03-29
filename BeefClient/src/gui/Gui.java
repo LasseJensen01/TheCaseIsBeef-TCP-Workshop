@@ -40,6 +40,7 @@ public class Gui extends Application {
 	public static Image image_wall;
 	public static Image hero_right,hero_left,hero_up,hero_down;
 	public static Event currentAction;
+	public boolean running = true;
 
 	
 	/** The cells making up the maze */
@@ -135,6 +136,9 @@ public class Gui extends Application {
 		stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();
 
+		updateScoreThread t1 = new updateScoreThread();
+		t1.start();
+
 		//TODO all playerMoved() methods to be removed since MotherServer updates gamestate to all players
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 			switch (event.getCode()) {
@@ -166,10 +170,21 @@ public class Gui extends Application {
 				case ESCAPE -> {
 					pc.declareAction("Quit");
 					System.exit(0);
+					running = false;
 				}
 				default -> {}
 			}
 		});
+	}
+
+	private class updateScoreThread extends Thread{
+
+		@Override
+		public void run() {
+			while(running){
+				updateScoreTable();
+			}
+		}
 	}
 	
 	public static void removePlayerOnScreen(PosXY oldPos) {
