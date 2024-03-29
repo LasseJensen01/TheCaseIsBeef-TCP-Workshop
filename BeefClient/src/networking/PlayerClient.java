@@ -18,6 +18,7 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 non-sealed public class PlayerClient extends ClientFieldCapsule {
     public static Player me;
@@ -25,15 +26,15 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     public static void main(String[] args) {
         //test
         try {
-            PlayerClient pc1 = new PlayerClient("192.168.0.230");
+            PlayerClient pc1 = new PlayerClient("192.168.0.109");
             Gui.pc = pc1;
 
-            GameLogic.makeVirtualPlayer("Kaj"); // to be removed
+            // GameLogic.makeVirtualPlayer("Kaj"); // to be removed
             Application.launch(Gui.class);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
     public PlayerClient(String IP) throws IOException {
         try {
@@ -48,6 +49,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
 
             recieveBoard();
             me = GameLogic.makePlayer(msg);
+            outToServer.writeBytes(me.getXpos() + "," + me.getYpos() + "\n");
             GameStateReceiveThread t1 = new GameStateReceiveThread();
             t1.start();
         } catch (IOException e) {
@@ -144,10 +146,16 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
             try {
                 System.out.println("GameStateReceiveThread Running");
                 String input  = "";
+                TimeUnit.SECONDS.sleep(1);
                 while (!connectionSocket.isClosed()){
-                    System.out.println("debug");
+                   // System.out.println("Connection established: " + !connectionSocket.isClosed());
+                    System.out.println("debug GSRT");
                     input = inFromServer.readLine();
-                    System.out.println("debug2");
+                    System.out.println(input);
+                    System.out.println("debug GSRT");
+                    System.out.println(connectionSocket.isClosed());
+                    // System.out.println(input);
+                    //System.out.println("debug2");
                     String[] playerState = input.split(",");
 
                     //Updating
@@ -156,15 +164,20 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                     Player p = null;
                     for (Player pl : GameLogic.players){
                         if (pl.getName().equals(playerState[0])) p = pl;
+                        int xPos = Integer.parseInt(playerState[1]);
+                        int yPos = Integer.parseInt(playerState[2]);
+                        PosXY newPos = new PosXY(xPos, yPos);
+                        int points = Integer.parseInt(playerState[4]);
+                        if (p != null){
+                            PosXY oldPos = new PosXY(p.getXpos(), p.getYpos());
+                            Gui.movePlayerOnScreen(oldPos,newPos, playerState[3]);
+                            System.out.println("Fuck");
+                            // GameLogic.updatePlayer(p,xPos, yPos, playerState[3]);
+                            p.setPoints(points);
+                            System.out.println("debug GSRT");
+                        }
                     }
-                    int xPos = Integer.parseInt(playerState[1]);
-                    int yPos = Integer.parseInt(playerState[2]);
-                    int points = Integer.parseInt(playerState[4]);
-
-                    if (p != null){
-                        GameLogic.updatePlayer(p,xPos, yPos, playerState[3]);
-                        GameLogic.setPoints(p,points);
-                    }
+                    System.out.println(connectionSocket.isClosed());
                 }
                 System.out.println("GameStateReceiveThread Ending");
 

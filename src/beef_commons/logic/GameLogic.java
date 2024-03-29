@@ -78,16 +78,42 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
               PosXY randPos = getRandomFreePosition();
               player.setPos(randPos);
               PosXY oldPos = new PosXY(x+delta_x,y+delta_y);
-              // Gui.movePlayerOnScreen(oldPos,randPos,player.facingDir);
+              Gui.movePlayerOnScreen(oldPos,randPos,player.facingDir);
 			} else 
+				me.addPoints(1);
+			PosXY oldPos = me.getPos();
+			PosXY newPos = new PosXY(x+delta_x,y+delta_y);
+			Gui.movePlayerOnScreen(oldPos,newPos,facingDir);
+			me.setPos(newPos);
+		}
+	}
+	public static void updatePlayerServer(Player me, int delta_x, int delta_y, String facingDir)
+	{
+		me.facingDir = facingDir;
+		int x = me.getXpos(),y = me.getYpos();
+
+		// when moving up against wall
+		if (Generel.board[y+delta_y].charAt(x+delta_x)=='w') {
+			me.addPoints(-1);
+		}
+		else {
+			// collision detection
+			Player player = getPlayerAt(x+delta_x,y+delta_y);
+			if (player!=null) {
+				me.addPoints(10);
+				//update the other player
+				player.addPoints(-10);
+				PosXY randPos = getRandomFreePosition();
+				player.setPos(randPos);
+				PosXY oldPos = new PosXY(x+delta_x,y+delta_y);
+				// Gui.movePlayerOnScreen(oldPos,randPos,player.facingDir);
+			} else
 				me.addPoints(1);
 			PosXY oldPos = me.getPos();
 			PosXY newPos = new PosXY(x+delta_x,y+delta_y);
 			// Gui.movePlayerOnScreen(oldPos,newPos,facingDir);
 			me.setPos(newPos);
 		}
-		
-		
 	}
 	
 	public static Player getPlayerAt(int x, int y) {

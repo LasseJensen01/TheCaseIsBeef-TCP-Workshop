@@ -24,28 +24,21 @@ public class ServerListenerThread extends Thread{
         boolean isOpen = true;
         try {
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String input;
-            boolean hasMoved = false;
+            String input = "";
             while (isOpen){
-                /*TODO Optimize the way first move is recorded and how move pr. tick is replaced/updated
-                   if a player sends more than one move pr. tick
-                */
                 input = inFromClient.readLine();
                 if (input != null){
                     System.out.println(input);
                     String[] temp = input.split(",");
                     String name = temp[1];
-                    for (int i = inputs.size() - 1; i == 0 && hasMoved ; i--) {
+                    for (int i = inputs.size() - 1; i == 0; i--) {
                         if (inputs.get(i).contains("PLAYER,"+ name)){
                             inputs.remove(i);
-                            inputs.add(input);
                             break;
                         }
                     }
-                    if (!hasMoved){
-                        inputs.add(input);
-                        hasMoved = true;
-                    }
+                    inputs.add(input);
+
                 }
                 System.out.println(inputs.size());
             }

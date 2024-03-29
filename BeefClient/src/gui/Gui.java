@@ -64,7 +64,7 @@ public class Gui extends Application {
 		Media media = new Media(new File("Resources/Music/music.mp3").toURI().toString());
 		MediaPlayer player = new MediaPlayer(media);
 		player.setCycleCount(MediaPlayer.INDEFINITE);
-		player.setAutoPlay(true);
+		// player.setAutoPlay(true);
 
 
 		try {
@@ -139,7 +139,7 @@ public class Gui extends Application {
 				case UP -> {
 					// playerMoved(0, -1, "up"); //Too bee removed
 					currentAction = event;
-					pc.declareAction("moveUP");
+					pc.declareAction("moveUp");
 				}
 				case DOWN -> {
 					// playerMoved(0, +1, "down");
@@ -171,12 +171,12 @@ public class Gui extends Application {
 	}
 	
 	public static void removePlayerOnScreen(PosXY oldPos) {
-		Platform.runLater(() -> {
-			cells[oldPos.getX()][oldPos.getY()].setGraphic(new ImageView(image_floor));
-			});
+		// Moved this thingy outside i think its wack
+		Platform.runLater(() -> {cells[oldPos.getX()][oldPos.getY()].setGraphic(new ImageView(image_floor));});
 	}
 	
 	public static void placePlayerOnScreen(PosXY newPos, String facingDir) {
+		// Moved this thingy outside i think its wack
 		Platform.runLater(() -> {
 			int newX = newPos.getX();
 			int newY = newPos.getY();
@@ -192,7 +192,9 @@ public class Gui extends Application {
 			if (facingDir.equals("down")) {
 				cells[newX][newY].setGraphic(new ImageView(hero_down));
 			};
-			});
+
+		});
+
 	}
 	
 	public static void movePlayerOnScreen(PosXY oldpos, PosXY newpos, String direction)
