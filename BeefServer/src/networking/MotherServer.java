@@ -136,9 +136,9 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             } else if (action.equals("moveRight")) {
                 posX++; //Hvorfor...
                 GameLogic.updatePlayerServer(p, 1, 0, "right");
-            } else if (action.equals("quit")){
+            } else if (action.equals("Quit")){
                 for(int k = 0; k < GameLogic.players.size(); k++){
-                    p.setFacingDir("quit");
+                    p.setFacingDir("Quit");
                     GameLogic.players.remove(p);
                     playerThreads.remove(p.getName());
                 }

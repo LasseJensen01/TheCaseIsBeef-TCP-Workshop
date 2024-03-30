@@ -125,7 +125,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                     PosXY newPos = new PosXY(xPos, yPos);
                     int points = Integer.parseInt(playerState[4]);
                     if (p != null) {
-                        if(playerState[3].equals("quit")){
+                        if(playerState[3].equals("Quit")){
                             removePlayerFromList(p.getName());
                         }else {
                             PosXY oldPos = new PosXY(p.getXpos(), p.getYpos());
