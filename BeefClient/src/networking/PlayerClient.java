@@ -55,7 +55,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     }
 
 
-    public void recieveBoard() throws IOException {
+    public synchronized void recieveBoard() throws IOException {
         System.out.println("Starting receive board");
         ArrayList<String> tempBoard = new ArrayList<>();
         boolean isDone = false;
@@ -104,7 +104,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
             try {
                 System.out.println("GameStateReceiveThread Running");
                 String input = "";
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.SECONDS.sleep(3);
                 while (!connectionSocket.isClosed()) {
                     input = inFromServer.readLine();
                     String[] playerState = input.split(",");
