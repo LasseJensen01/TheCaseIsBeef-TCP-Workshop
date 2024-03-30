@@ -130,6 +130,8 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                             PosXY oldPos = new PosXY(p.getXpos(), p.getYpos());
                             Gui.movePlayerOnScreen(oldPos, newPos, playerState[3]);
                             p.setPos(newPos);
+                            p.setXpos(newPos.getX());
+                            p.setYpos(newPos.getY());
                             p.setPoints(points);
                             Gui.updateScoreTable();
                         }

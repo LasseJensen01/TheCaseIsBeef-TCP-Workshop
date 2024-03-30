@@ -41,7 +41,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             System.err.println("fucky wucky");
         }
         boot(port);
-        tick2(50.00);
+        tick2(1.00);
 
     }
 
