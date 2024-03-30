@@ -1,11 +1,8 @@
 package networking;
 
-import gui.App;
 import gui.Gui;
 
 import javafx.application.Application;
-import javafx.event.Event;
-import javafx.scene.input.KeyEvent;
 import beef_commons.logic.*;
 import beef_commons.utility.*;
 
@@ -13,11 +10,8 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 non-sealed public class PlayerClient extends ClientFieldCapsule {
@@ -130,11 +124,15 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                     PosXY newPos = new PosXY(xPos, yPos);
                     int points = Integer.parseInt(playerState[4]);
                     if (p != null) {
-                        PosXY oldPos = new PosXY(p.getXpos(), p.getYpos());
-                        Gui.movePlayerOnScreen(oldPos, newPos, playerState[3]);
-                        p.setPos(newPos);
-                        p.setPoints(points);
-                        Gui.updateScoreTable();
+                        if(playerState[3].equals("Quit")){
+                            removePlayerFromList(p.getName());
+                        }else {
+                            PosXY oldPos = new PosXY(p.getXpos(), p.getYpos());
+                            Gui.movePlayerOnScreen(oldPos, newPos, playerState[3]);
+                            p.setPos(newPos);
+                            p.setPoints(points);
+                            Gui.updateScoreTable();
+                        }
                     } else
                         addNewPlayerToGUI(playerState[0], newPos); // Should add a new player onto into the gui alongside you
                 }
@@ -155,6 +153,13 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
         }
     }
 
+    private void removePlayerFromList(String name){
+        for(Player p : GameLogic.players){
+            if(p.getName() == name){
+                Gui.removePlayerOnScreen(p.getPos());
+            }
+        }
+    }
 }
 
 
