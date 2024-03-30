@@ -137,11 +137,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
                 posX++; //Hvorfor...
                 GameLogic.updatePlayerServer(p, 1, 0, "right");
             } else if (action.equals("Quit")){
-                for(int k = 0; k < GameLogic.players.size(); k++){
-                    p.setFacingDir("Quit");
-                    GameLogic.players.remove(p);
-                    playerThreads.remove(p.getName());
-                }
+                p.setFacingDir("Quit");
             }
         }
         inputs.clear();
@@ -167,11 +163,16 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             state += p.getPlayer().getFacingDir() + ",";
             state += p.getPlayer().getPoints();
             states.add(state);
+            if (p.getPlayer().getFacingDir().equalsIgnoreCase("Quit")){
+                GameLogic.players.remove(p.getPlayer());
+                playerThreads.remove(p.getPlayer().getName());
+            }
         }
         // Arraylist 'states' contains every players new state, ship off to every player
         // Could make threads here to quicken the workload but maybe in a second iteration
         // Nested for loops could prove to slow down game significantly with either more players or if we up tickrate
         try{
+            players = playerThreads.values().stream().toList();
             for (PlayerInstance p : players){
                 if (!p.getSocket().isClosed()){
                     DataOutputStream sendIt = new DataOutputStream(p.getSocket().getOutputStream());

@@ -157,8 +157,8 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     private void removePlayerFromList(String name){
         for(Player p : GameLogic.players){
             if(p.getName() == name){
-                GameLogic.players.remove(p);
                 Gui.removePlayerOnScreen(p.getPos());
+                GameLogic.players.remove(p);
             }
         }
     }
