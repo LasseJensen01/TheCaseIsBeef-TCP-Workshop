@@ -89,8 +89,6 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
             String msg = "PLAYER," + me.getName() + ",ACTION," + action;
             outToServer.writeBytes(msg + "\n"); //SENDING UPDATE
             if (action.equalsIgnoreCase("Quit")) {
-                removePlayerFromList(me.getName());
-                Gui.removePlayerOnScreen(me.getPos());
                 connectionSocket.close();
             }
         } catch (IOException e) {
@@ -127,11 +125,15 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                     PosXY newPos = new PosXY(xPos, yPos);
                     int points = Integer.parseInt(playerState[4]);
                     if (p != null) {
-                        PosXY oldPos = new PosXY(p.getXpos(), p.getYpos());
-                        Gui.movePlayerOnScreen(oldPos, newPos, playerState[3]);
-                        p.setPos(newPos);
-                        p.setPoints(points);
-                        Gui.updateScoreTable();
+                        if(playerState[3].equals("quit")){
+                            removePlayerFromList(p.getName());
+                        }else {
+                            PosXY oldPos = new PosXY(p.getXpos(), p.getYpos());
+                            Gui.movePlayerOnScreen(oldPos, newPos, playerState[3]);
+                            p.setPos(newPos);
+                            p.setPoints(points);
+                            Gui.updateScoreTable();
+                        }
                     } else
                         addNewPlayerToGUI(playerState[0], newPos); // Should add a new player onto into the gui alongside you
                 }
@@ -156,6 +158,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
         for(Player p : GameLogic.players){
             if(p.getName() == name){
                 GameLogic.players.remove(p);
+                Gui.removePlayerOnScreen(p.getPos());
             }
         }
     }
