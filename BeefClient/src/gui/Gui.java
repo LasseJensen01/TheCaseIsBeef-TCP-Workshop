@@ -64,16 +64,13 @@ public class Gui extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		Media mediaIntro = new Media(new File("Resources/Music/Game Intro music.mp3").toURI().toString());
-		MediaPlayer player = new MediaPlayer(mediaIntro);
-		player.play();
-		while(player.getStatus().equals(MediaPlayer.Status.PLAYING)){
+		MediaPlayer player1 = new MediaPlayer(mediaIntro);
+		player1.play();
 
-		}
 		Media media = new Media(new File("Resources/Music/music.mp3").toURI().toString());
-		player = new MediaPlayer(media);
-		player.setAutoPlay(true);
-		player.setCycleCount(MediaPlayer.INDEFINITE);
-
+		MediaPlayer player2 = new MediaPlayer(media);
+		player1.setOnEndOfMedia(() -> player2.play());
+		player2.setCycleCount(MediaPlayer.INDEFINITE);
 
 
 		try {
