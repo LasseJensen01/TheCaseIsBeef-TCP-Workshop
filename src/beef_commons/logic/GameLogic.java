@@ -125,7 +125,5 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 		return null;
 	}
 
-	public static void setPoints(Player me, int points){
-		me.point = points;
-	}
+
 }

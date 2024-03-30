@@ -50,11 +50,6 @@ public class PlayerInstance implements Runnable {
         return true;
     }
 
-    /** Polls the input buffer for this players latest action */
-    public void readInput(){
-
-    }
-
     public void returnGamestate(String gamestate) {
         try {
             DataOutputStream outToClient = new DataOutputStream(this.socket.getOutputStream());

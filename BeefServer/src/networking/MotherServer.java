@@ -82,17 +82,6 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         }
     }
 
-    public void tick(long tickRateMs) {
-        resolveOutcome(inputs);
-        inputs.clear();
-        while (!shipGamestate()) {
-            try {
-                TimeUnit.MILLISECONDS.sleep(tickRateMs);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 
     public synchronized void tick2(Double firmTime){
             while(isBeefing){
@@ -125,40 +114,6 @@ non-sealed class MotherServer extends ServerFieldCapsule {
     }
 
 
-    public boolean resolveOutcome(ArrayList<String> inputs) {
-        String[] words = new String[inputs.size()];
-
-        for (int j = 0; j < inputs.size(); j++) {
-            int i = 0;
-            inputs.get(i).split(","/*check it spits on the right thing */, -1);
-
-            String name = words[0];
-            int posX = Integer.parseInt(words[1]);
-            int posY = Integer.parseInt(words[2]);
-            String action = words[3];
-            Player getPlayer = playerThreads.get(name).getPlayer();
-
-            Player currPlayer = playerThreads.get(name).getPlayer();
-
-            switch (action) {
-                case "w" -> {
-                    GameLogic.updatePlayer(currPlayer,posX,posY,"up");
-                }
-                case "s" -> {
-                    GameLogic.updatePlayer(currPlayer,posX,posY,"down");
-                }
-                case "a" -> {
-                    GameLogic.updatePlayer(currPlayer,posX,posY,"left");
-                }
-                case "d" -> {
-                    GameLogic.updatePlayer(currPlayer,posX,posY,"right");
-                }
-                default -> {}
-            }
-            i++;
-        }
-        return false;
-    }
     public boolean resolveOutcome2() {
         for (int i = 0; i < inputs.size(); i++) {
            String[] words = inputs.get(i).split(",");

@@ -102,19 +102,6 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
         }
     }
 
-    private String parseAction(KeyEvent event) {
-        String action = null;
-        switch (event.getCode()) {
-            case UP -> action = "ACTION,moveUp,";
-            case DOWN -> action = "ACTION,moveDown,";
-            case LEFT -> action = "ACTION,moveLeft,";
-            case RIGHT -> action = "ACTION,moveRight,";
-            case SPACE -> action = "ACTION,shoot,";
-            case ESCAPE -> action = "ACTION,quit,";
-            default -> action = "ACTION,none,";
-        }
-        return action;
-    }
 
 
     private class GameStateReceiveThread extends Thread {
