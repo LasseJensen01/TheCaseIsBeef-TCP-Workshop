@@ -63,7 +63,6 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             Socket playerConnSocket = serverSocket.accept();
             System.out.println("Connection made with " + playerConnSocket.getInetAddress().getHostAddress());
             PlayerInstance newPlayer = new PlayerInstance(playerConnSocket);
-            playerThreads.put(newPlayer.getPlayer().getName(), newPlayer);
             DataOutputStream outToPlayer = new DataOutputStream(playerConnSocket.getOutputStream());
             BufferedReader inFromPlayer = new BufferedReader(new InputStreamReader(playerConnSocket.getInputStream()));
             // Send map and later game state to the new pleb
@@ -73,6 +72,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             }
             outToPlayer.writeBytes("quit" + "\n");
             System.out.println("Map succesfullt sent \n");
+            playerThreads.put(newPlayer.getPlayer().getName(), newPlayer); // Has to be after map has been sent to avoid psudo race condition
             fixPlayerPosition(newPlayer.getPlayer(), inFromPlayer.readLine()); // Blocks until client sends posXY
             System.out.println("Setting up listener for Clients inputs");
             ServerListenerThread slt = new ServerListenerThread(playerConnSocket, newPlayer.getPlayer().getName(), inputs);
