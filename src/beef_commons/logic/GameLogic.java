@@ -100,6 +100,7 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 		else {
 			// collision detection
 			Player player = getPlayerAt(x+delta_x,y+delta_y);
+			System.out.println(player);
 			if (player!=null) {
 				me.addPoints(10);
 				//update the other player
