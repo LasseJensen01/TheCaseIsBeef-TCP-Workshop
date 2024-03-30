@@ -36,6 +36,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
         }
 
     }
+
     public PlayerClient(String IP) throws IOException {
         try {
             inFromClient = new BufferedReader(new InputStreamReader(System.in)); // Define the client reader
@@ -60,16 +61,15 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     }
 
 
-
     public void recieveBoard() throws IOException {
         System.out.println("Starting receive board");
         ArrayList<String> tempBoard = new ArrayList<>();
         boolean isDone = false;
-        while(!isDone){
+        while (!isDone) {
             String temp = inFromServer.readLine();
-            if(temp.equals("quit")){
+            if (temp.equals("quit")) {
                 isDone = true;
-            }else {
+            } else {
                 tempBoard.add(temp);
             }
         }
@@ -80,7 +80,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
         Generel.setBoard(board);
 
         if (Generel.board[0] == null) {
-            Generel.board = Generel.constructBoard(20,20); //TODO for no-network testing
+            Generel.board = Generel.constructBoard(20, 20); //TODO for no-network testing
         }
 
         System.out.println();
@@ -92,15 +92,16 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
 
     public void declareAction(String action) {
         try {
-            String msg = "PLAYER,"+ me.getName() + ",ACTION," + action;
+            String msg = "PLAYER," + me.getName() + ",ACTION," + action;
             outToServer.writeBytes(msg + "\n"); //SENDING UPDATE
-            if (action.equalsIgnoreCase("Quit")){
+            if (action.equalsIgnoreCase("Quit")) {
                 connectionSocket.close();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
     private String parseAction(KeyEvent event) {
         String action = null;
         switch (event.getCode()) {
@@ -116,14 +117,14 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     }
 
 
-    private class GameStateReceiveThread extends Thread{
+    private class GameStateReceiveThread extends Thread {
         @Override
         public void run() {
             try {
                 System.out.println("GameStateReceiveThread Running");
-                String input  = "";
+                String input = "";
                 TimeUnit.SECONDS.sleep(1);
-                while (!connectionSocket.isClosed()){
+                while (!connectionSocket.isClosed()) {
                     input = inFromServer.readLine();
                     System.out.println(input);
                     String[] playerState = input.split(",");
@@ -133,33 +134,35 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                     // Seperated by ',' so using split function of a string
                     Player p = null;
                     for (Player pl : GameLogic.players) {
-                        if (pl.getName().equals(playerState[0])){
+                        if (pl.getName().equals(playerState[0])) {
                             p = pl;
                             break;
                         }
                     }
-                        int xPos = Integer.parseInt(playerState[1]);
-                        int yPos = Integer.parseInt(playerState[2]);
-                        PosXY newPos = new PosXY(xPos, yPos);
-                        int points = Integer.parseInt(playerState[4]);
-                        if (p != null){
-                            PosXY oldPos = new PosXY(p.getXpos(), p.getYpos());
-                            Gui.movePlayerOnScreen(oldPos,newPos, playerState[3]);
-                            p.setPos(newPos);
-                            p.setPoints(points);
-                            Gui.updateScoreTable();
-                        } else addNewPlayerToGUI(playerState[0], newPos); // Should add a new player onto into the gui alongside you
-                    }
-                    System.out.println(connectionSocket.isClosed());
+                    int xPos = Integer.parseInt(playerState[1]);
+                    int yPos = Integer.parseInt(playerState[2]);
+                    PosXY newPos = new PosXY(xPos, yPos);
+                    int points = Integer.parseInt(playerState[4]);
+                    if (p != null) {
+                        PosXY oldPos = new PosXY(p.getXpos(), p.getYpos());
+                        Gui.movePlayerOnScreen(oldPos, newPos, playerState[3]);
+                        p.setPos(newPos);
+                        p.setPoints(points);
+                        Gui.updateScoreTable();
+                    } else
+                        addNewPlayerToGUI(playerState[0], newPos); // Should add a new player onto into the gui alongside you
+                }
+                System.out.println(connectionSocket.isClosed());
                 System.out.println("GameStateReceiveThread Ending");
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.err.println("Error in GSRT Thread: " + e.getMessage());
             }
 
         }
+
         // Should probably rename this to something more accurate
-        private void addNewPlayerToGUI(String name, PosXY posXY){
+        private void addNewPlayerToGUI(String name, PosXY posXY) {
             Player p = new Player(name, posXY, "up");
             GameLogic.players.add(p);
             Gui.placePlayerOnScreen(p.getPos(), "up");
@@ -167,7 +170,6 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     }
 
 }
-
 
 
 sealed abstract class ClientFieldCapsule permits PlayerClient {
