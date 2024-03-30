@@ -26,7 +26,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     public static void main(String[] args) {
         //test
         try {
-            PlayerClient pc1 = new PlayerClient("192.168.0.109");
+            PlayerClient pc1 = new PlayerClient("192.168.1.13");
             Gui.pc = pc1;
 
             // GameLogic.makeVirtualPlayer("Kaj"); // to be removed
@@ -132,8 +132,12 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                     // Received String is formed as: Name, xPos, yPos, facingDir, Point
                     // Seperated by ',' so using split function of a string
                     Player p = null;
-                    for (Player pl : GameLogic.players){
-                        if (pl.getName().equals(playerState[0])) p = pl;
+                    for (Player pl : GameLogic.players) {
+                        if (pl.getName().equals(playerState[0])){
+                            p = pl;
+                            break;
+                        }
+                    }
                         int xPos = Integer.parseInt(playerState[1]);
                         int yPos = Integer.parseInt(playerState[2]);
                         PosXY newPos = new PosXY(xPos, yPos);
@@ -147,11 +151,10 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                         } else addNewPlayerToGUI(playerState[0], newPos); // Should add a new player onto into the gui alongside you
                     }
                     System.out.println(connectionSocket.isClosed());
-                }
                 System.out.println("GameStateReceiveThread Ending");
 
             }catch (Exception e){
-                System.err.println("Error in GSRT Thread: " + e);
+                System.err.println("Error in GSRT Thread: " + e.getMessage());
             }
 
         }
