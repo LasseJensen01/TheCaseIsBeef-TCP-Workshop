@@ -95,7 +95,6 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 		// when moving up against wall
 		if (Generel.board[y+delta_y].charAt(x+delta_x)=='w') {
 			me.addPoints(-1);
-			System.out.println("GL-debug: walked into wall");
 		}
 		else {
 			// collision detection
@@ -107,7 +106,6 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 				PosXY randPos = getRandomFreePosition();
 				player.setPos(randPos);
 				PosXY oldPos = new PosXY(x+delta_x,y+delta_y);
-				System.out.println("GL-debug: walked into player");
 				// Gui.movePlayerOnScreen(oldPos,randPos,player.facingDir);
 			} else
 				me.addPoints(1);
