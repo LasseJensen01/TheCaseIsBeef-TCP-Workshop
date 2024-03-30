@@ -26,7 +26,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     public static void main(String[] args) {
         //test
         try {
-            PlayerClient pc1 = new PlayerClient("192.168.1.14");
+            PlayerClient pc1 = new PlayerClient("192.168.1.13");
             Gui.pc = pc1;
 
             // GameLogic.makeVirtualPlayer("Kaj"); // to be removed
@@ -113,7 +113,6 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                 TimeUnit.SECONDS.sleep(1);
                 while (!connectionSocket.isClosed()) {
                     input = inFromServer.readLine();
-                    System.out.println(input);
                     String[] playerState = input.split(",");
 
                     //Updating

@@ -28,7 +28,6 @@ public class ServerListenerThread extends Thread{
             while (isOpen){
                 input = inFromClient.readLine();
                 if (input != null){
-                    System.out.println(input);
                     String[] temp = input.split(",");
                     String name = temp[1];
                     for (int i = inputs.size() - 1; i == 0; i--) {
@@ -40,7 +39,6 @@ public class ServerListenerThread extends Thread{
                     inputs.add(input);
 
                 } else isOpen = false;
-                System.out.println(inputs.size());
             }
             inFromClient.close();
             socket.close();
