@@ -70,7 +70,7 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 		} 
 		else {
 			// collision detection
-			Player player = getPlayerAt(x+delta_x,y+delta_y);
+			Player player = getPlayerAt(new PosXY(x+delta_x, y+delta_y));
 			if (player!=null) {
               me.addPoints(10);
               //update the other player
@@ -99,7 +99,7 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 		}
 		else {
 			// collision detection
-			Player player = getPlayerAt(x+delta_x,y+delta_y);
+			Player player = getPlayerAt(new PosXY(x+delta_x, y+delta_y));
 			System.out.println(player);
 			if (player!=null) {
 				me.addPoints(10);
@@ -119,9 +119,9 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 		}
 	}
 	
-	public static Player getPlayerAt(int x, int y) {
+	public static Player getPlayerAt(PosXY posXY) {
 		for (Player player : players) {
-			if (player.getXpos()==x && player.getYpos()==y) {
+			if (player.pos.equals(posXY)) {
 				return player;
 			}
 		}

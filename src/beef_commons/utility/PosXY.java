@@ -22,6 +22,14 @@ public class PosXY {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		PosXY temp = (PosXY) obj;
+		if (this.x == temp.x && this.y == temp.y){
+			return true;
+		} else return false;
+	}
+
+	@Override
 	public String toString() {
 		return x + "," + y;
 	}
