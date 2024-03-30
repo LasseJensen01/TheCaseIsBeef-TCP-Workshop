@@ -66,7 +66,7 @@ public class Gui extends Application {
 		Media media = new Media(new File("Resources/Music/music.mp3").toURI().toString());
 		MediaPlayer player = new MediaPlayer(media);
 		player.setCycleCount(MediaPlayer.INDEFINITE);
-		// player.setAutoPlay(true);
+		player.setAutoPlay(true);
 
 
 		try {

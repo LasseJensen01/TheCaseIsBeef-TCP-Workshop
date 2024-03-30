@@ -73,6 +73,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             outToPlayer.writeBytes("quit" + "\n");
             System.out.println("Map succesfullt sent \n");
             playerThreads.put(newPlayer.getPlayer().getName(), newPlayer); // Has to be after map has been sent to avoid psudo race condition
+            GameLogic.players.add(newPlayer.getPlayer());
             fixPlayerPosition(newPlayer.getPlayer(), inFromPlayer.readLine()); // Blocks until client sends posXY
             System.out.println("Setting up listener for Clients inputs");
             ServerListenerThread slt = new ServerListenerThread(playerConnSocket, newPlayer.getPlayer().getName(), inputs);
