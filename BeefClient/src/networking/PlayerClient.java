@@ -158,7 +158,6 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
         for(Player p : GameLogic.players){
             if(p.getName() == name){
                 Gui.removePlayerOnScreen(p.getPos());
-                GameLogic.players.remove(p);
             }
         }
     }
