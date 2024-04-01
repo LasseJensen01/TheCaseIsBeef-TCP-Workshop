@@ -19,7 +19,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
 
     public static void main(String[] args) {
         try {
-            PlayerClient pc1 = new PlayerClient("192.168.0.109");
+            PlayerClient pc1 = new PlayerClient("INDTAST IP HER"); // Type IP to connect to 'MotherServer'
             Gui.pc = pc1;
             Application.launch(Gui.class);
         } catch (IOException e) {
