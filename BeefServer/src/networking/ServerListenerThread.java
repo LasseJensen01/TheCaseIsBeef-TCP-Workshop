@@ -46,28 +46,5 @@ public class ServerListenerThread extends Thread{
             System.err.println("Error thrown in SLT Thread: " + this.getId());
             isOpen = false;
         }
-
-    }
-
-    private String[] parseIncomming(String input) { // Legacy code, AKA, what not to do.
-        char[] toParse = input.toCharArray();
-        String[] toReturn = new String[4];
-        int i = 0;
-        int value = 0;
-        for (char c : toParse) {
-            int j = i;
-            String toAdd = "";
-            if (c == '{') {
-                while (toParse[j] != '}') {
-                    toAdd += toParse[j];
-                    j++;
-                }
-                toReturn[value] = toAdd;
-                value++;
-                i = j;
-            }
-            i++;
-        }
-        return toReturn;
     }
 }

@@ -14,9 +14,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
 
 non-sealed class MotherServer extends ServerFieldCapsule {
     public static void main(String[] args) {
@@ -38,10 +35,10 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             IP = InetAddress.getLocalHost().getHostAddress();
 
         } catch (IOException e) {
-            System.err.println("fucky wucky");
+            System.err.println("Error in motherserver: " + e);
         }
         boot(port);
-        tick2(1.00);
+        tick(1.00);
 
     }
 
@@ -65,7 +62,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             PlayerInstance newPlayer = new PlayerInstance(playerConnSocket);
             DataOutputStream outToPlayer = new DataOutputStream(playerConnSocket.getOutputStream());
             BufferedReader inFromPlayer = new BufferedReader(new InputStreamReader(playerConnSocket.getInputStream()));
-            // Send map and later game state to the new pleb
+            // Send map and later game state to the new player
             System.out.println("Sending board to client");
             for (int i = 0; i < board.length; i++) {
                 outToPlayer.writeBytes(board[i] + "\n");
@@ -84,11 +81,10 @@ non-sealed class MotherServer extends ServerFieldCapsule {
     }
 
 
-    public synchronized void tick2(Double firmTime){
+    public synchronized void tick(Double firmTime){
             while(isBeefing){
-                // System.out.println("tick");
                 LocalTime gamestateTime = LocalTime.now();
-                resolveOutcome2();
+                resolveOutcome();
                 shipGamestate();
                 LocalTime timeSpent = LocalTime.now();
                 Long deltaTime = timeSpent.toNanoOfDay() - gamestateTime.toNanoOfDay();
@@ -104,8 +100,8 @@ non-sealed class MotherServer extends ServerFieldCapsule {
     }
 
     /**
-     * Initially when player is created both client and server side the getRandomPosition method in gamelogic is called on botb sides leading
-     * to one player having diffrent positions server and client side. This method aims to fix Server side postion to the same as Client side
+     * Initially when player is created both client and server-side call the getRandomPosition method in gamelogic leading
+     * to one player having diffrent positions server and client-side. This method aims to fix Server side postion to the same as Client side
      */
     public void fixPlayerPosition(Player p, String pos){
         String[] newPos = pos.split(",");
@@ -115,7 +111,7 @@ non-sealed class MotherServer extends ServerFieldCapsule {
     }
 
 
-    public boolean resolveOutcome2() {
+    public boolean resolveOutcome() {
         for (int i = 0; i < inputs.size(); i++) {
            String[] words = inputs.get(i).split(",");
 
@@ -126,16 +122,16 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             int posY = p.getYpos();
 
             if (action.equals("moveUp")) {
-                posY--; // Fordi JavaFX er på crack så er
+                posY--;
                 GameLogic.updatePlayerServer(p, 0, -1, "up");
             } else if (action.equals("moveDown")) {
-                posY++; // Fordi JavaFX
+                posY++;
                 GameLogic.updatePlayerServer(p, 0, 1, "down");
             } else if (action.equals("moveLeft")) {
-                posX--; //Fordi
+                posX--;
                 GameLogic.updatePlayerServer(p, -1, 0, "left");
             } else if (action.equals("moveRight")) {
-                posX++; //Hvorfor...
+                posX++;
                 GameLogic.updatePlayerServer(p, 1, 0, "right");
             } else if (action.equals("Quit")){
                 p.setFacingDir("Quit");
@@ -187,30 +183,6 @@ non-sealed class MotherServer extends ServerFieldCapsule {
             return false;
         }
         return true;
-
-
-//        //Assemble Gamestate
-//        String gameState = "";
-//        List<PlayerInstance> instances = playerThreads.values().stream().toList();
-//
-//
-//        for (PlayerInstance client : instances) {
-//            Player player = client.getPlayer();
-//
-//            gameState += player.getName();
-//            gameState += ",";
-//            gameState += player.getXpos();
-//            gameState += ",";
-//            gameState += player.getYpos();
-//            gameState += ",";
-//            gameState += player.getFacingDir();
-//            gameState += ",";
-//            gameState += player.getPoints();
-//
-//            //Send gamestate to client
-//            client.returnGamestate(gameState);
-//        }
-//        return true;
     }
 
     public ServerSocket getServerSocket() {

@@ -50,14 +50,6 @@ public class PlayerInstance implements Runnable {
         return true;
     }
 
-    public void returnGamestate(String gamestate) {
-        try {
-            DataOutputStream outToClient = new DataOutputStream(this.socket.getOutputStream());
-            outToClient.writeBytes(gamestate + "\n");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public String toString() {

@@ -65,10 +65,12 @@ public class Gui extends Application {
 	public void start(Stage primaryStage) {
 		Media mediaIntro = new Media(new File("Resources/Music/Game Intro music.mp3").toURI().toString());
 		MediaPlayer player1 = new MediaPlayer(mediaIntro);
+		player1.setVolume(0.25);
 		player1.play();
 
 		Media media = new Media(new File("Resources/Music/music.mp3").toURI().toString());
 		MediaPlayer player2 = new MediaPlayer(media);
+		player2.setVolume(0.25);
 		player1.setOnEndOfMedia(() -> player2.play());
 		player2.setCycleCount(MediaPlayer.INDEFINITE);
 
@@ -140,7 +142,6 @@ public class Gui extends Application {
 		stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();
 
-		//TODO all playerMoved() methods to be removed since MotherServer updates gamestate to all players
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 			switch (event.getCode()) {
 				case UP -> {
@@ -179,12 +180,10 @@ public class Gui extends Application {
 	}
 	
 	public static void removePlayerOnScreen(PosXY oldPos) {
-		// Moved this thingy outside i think its wack
 		Platform.runLater(() -> {cells[oldPos.getX()][oldPos.getY()].setGraphic(new ImageView(image_floor));});
 	}
 	
 	public static void placePlayerOnScreen(PosXY newPos, String facingDir) {
-		// Moved this thingy outside i think its wack
 		Platform.runLater(() -> {
 			int newX = newPos.getX();
 			int newY = newPos.getY();
@@ -217,10 +216,6 @@ public class Gui extends Application {
 		Platform.runLater(() -> {
 			taScoreArea.setText(getTaScoreArea());
 			});
-	}
-	public void playerMoved(int delta_x, int delta_y, String facingDir) {
-		GameLogic.updatePlayer(pc.me,delta_x,delta_y,facingDir);
-		updateScoreTable();
 	}
 	
 	public static String getTaScoreArea() {

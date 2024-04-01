@@ -20,20 +20,14 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 		me = new Player(name,pos,"up");
 		players.add(me);
 		return me;
-	};	
-	
-	public static void makeVirtualPlayer(String name)	{    // just demo/testing player - not in real game
-		PosXY pos = getRandomFreePosition();
-		Player kaj = new Player(name,pos,"up");
-		players.add(kaj);
-	}
+	};
 
 	/** finds a random new position which is:
 	 * 1) not wall
 	 * 2) not occupied by other players  */
 	public static PosXY getRandomFreePosition()
 	{
-		if (Generel.board[0].isEmpty()) { //TODO for no-network testing
+		if (Generel.board[0].isEmpty()) {
 			Generel.board = Generel.constructBoard(20,20);
 			System.out.println("Board is null: constructing new board.");
 		}
@@ -58,35 +52,6 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 		PosXY pos = new PosXY(x,y);
 		return pos;
 	}
-	
-	public static void updatePlayer(Player me, int delta_x, int delta_y, String facingDir)
-	{
-		me.facingDir = facingDir;
-		int x = me.getXpos(),y = me.getYpos();
-
-		// when moving up against wall
-		if (Generel.board[y+delta_y].charAt(x+delta_x)=='w') {
-			me.addPoints(-1);
-		} 
-		else {
-			// collision detection
-			Player player = getPlayerAt(new PosXY(x+delta_x, y+delta_y));
-			if (player!=null) {
-              me.addPoints(10);
-              //update the other player
-              player.addPoints(-10);
-              PosXY randPos = getRandomFreePosition();
-              player.setPos(randPos);
-              PosXY oldPos = new PosXY(x+delta_x,y+delta_y);
-              Gui.movePlayerOnScreen(oldPos,randPos,player.facingDir);
-			} else 
-				me.addPoints(1);
-			PosXY oldPos = me.getPos();
-			PosXY newPos = new PosXY(x+delta_x,y+delta_y);
-			Gui.movePlayerOnScreen(oldPos,newPos,facingDir);
-			me.setPos(newPos);
-		}
-	}
 	public static void updatePlayerServer(Player me, int delta_x, int delta_y, String facingDir)
 	{
 		me.facingDir = facingDir;
@@ -95,12 +60,10 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 		// when moving up against wall
 		if (Generel.board[y+delta_y].charAt(x+delta_x)=='w') {
 			me.addPoints(-1);
-			System.out.println("GL - Wall collision detected");
 		}
 		else {
 			// collision detection
 			Player player = getPlayerAt(new PosXY(x+delta_x, y+delta_y));
-			System.out.println(player);
 			if (player!=null) {
 				me.addPoints(10);
 				//update the other player
@@ -108,13 +71,10 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 				PosXY randPos = getRandomFreePosition();
 				player.setPos(randPos);
 				PosXY oldPos = new PosXY(x+delta_x,y+delta_y);
-				System.out.println("GL - Player collision detected");
-				// Gui.movePlayerOnScreen(oldPos,randPos,player.facingDir);
 			} else
 				me.addPoints(1);
 			PosXY oldPos = me.getPos();
 			PosXY newPos = new PosXY(x+delta_x,y+delta_y);
-			// Gui.movePlayerOnScreen(oldPos,newPos,facingDir);
 			me.setPos(newPos);
 		}
 	}
@@ -127,6 +87,4 @@ public static List<Player> players = new ArrayList<>(); //TODO LUC: skal denne s
 		}
 		return null;
 	}
-
-
 }

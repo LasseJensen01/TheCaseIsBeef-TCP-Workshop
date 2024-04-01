@@ -18,12 +18,9 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     public static Player me;
 
     public static void main(String[] args) {
-        //test
         try {
-            PlayerClient pc1 = new PlayerClient("192.168.1.14");
+            PlayerClient pc1 = new PlayerClient("192.168.0.109");
             Gui.pc = pc1;
-
-            // GameLogic.makeVirtualPlayer("Kaj"); // to be removed
             Application.launch(Gui.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -34,7 +31,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
     public PlayerClient(String IP) throws IOException {
         try {
             inFromClient = new BufferedReader(new InputStreamReader(System.in)); // Define the client reader
-            System.out.println("Sei yuw naem, baka! UwU"); //Type
+            System.out.println("Type name"); //Type name for Player
             String msg = inFromClient.readLine();
             port = 1234;
             connectionSocket = new Socket(IP, port);
@@ -74,7 +71,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
         Generel.setBoard(board);
 
         if (Generel.board[0] == null) {
-            Generel.board = Generel.constructBoard(20, 20); //TODO for no-network testing
+            Generel.board = Generel.constructBoard(20, 20); //Leftover code for no-network testing. Player now receives board from Server VIA receiveBoard function.
         }
 
         System.out.println();
@@ -136,7 +133,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
                             Gui.updateScoreTable();
                         }
                     } else
-                        addNewPlayerToGUI(playerState[0], newPos); // Should add a new player onto into the gui alongside you
+                        addNewPlayerToGUI(playerState[0], newPos); // Should add a new player into the gui alongside you
                 }
                 System.out.println(connectionSocket.isClosed());
                 System.out.println("GameStateReceiveThread Ending");
