@@ -37,6 +37,13 @@ non-sealed class MotherServer extends ServerFieldCapsule {
         } catch (IOException e) {
             System.err.println("Error in motherserver: " + e);
         }
+        try {
+            UDPBroadcastThread UDPT = new UDPBroadcastThread("Motherserver", InetAddress.getLocalHost().getHostAddress());
+            UDPT.start();
+        }catch (Exception e){
+            System.err.println("Error in starting UDP Thread: " + e);
+        }
+
         boot(port);
         tick(1.00);
 

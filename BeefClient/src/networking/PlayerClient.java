@@ -10,6 +10,8 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -19,13 +21,28 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
 
     public static void main(String[] args) {
         try {
-            PlayerClient pc1 = new PlayerClient("INDTAST IP HER"); // Type IP to connect to 'MotherServer'
+            String ip = UDPConnect();
+            PlayerClient pc1 = new PlayerClient(ip); // Type IP to connect to 'MotherServer'
             Gui.pc = pc1;
             Application.launch(Gui.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    private static String UDPConnect(){
+        String[] server = new String[2];
+        try {
+            DatagramSocket socket = new DatagramSocket(1212);
+            byte[] buffer = new byte[1024];
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+            socket.receive(packet);
+            server = new String(packet.getData(), 0,packet.getLength()).split(",");
+            socket.close();
+        }catch (Exception e){
+            System.err.println("Error in Playerclient/UDPConnect: " + e);
+        }
+        return server[1];
     }
 
     public PlayerClient(String IP) throws IOException {
