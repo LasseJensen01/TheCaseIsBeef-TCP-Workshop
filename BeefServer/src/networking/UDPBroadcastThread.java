@@ -19,6 +19,7 @@ public class UDPBroadcastThread extends Thread{
         DatagramSocket socket = null;
         try {
             socket = new DatagramSocket();
+            socket.setBroadcast(true);
             String msg = serverName + "," + IP;
             byte[] data = msg.getBytes();
             InetAddress broadcastAdress = InetAddress.getByName("255.255.255.255");
