@@ -4,7 +4,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.concurrent.TimeUnit;
 
 public class UDPBroadcastThread extends Thread{
     String IP;
@@ -24,10 +23,11 @@ public class UDPBroadcastThread extends Thread{
             byte[] data = msg.getBytes();
             InetAddress broadcastAdress = InetAddress.getByName("255.255.255.255");
             DatagramPacket packet = new DatagramPacket(data, data.length, broadcastAdress, 1212);
+            DatagramPacket p = new DatagramPacket(data,data.length,1212);
             while (true){
                 socket.send(packet);
                 System.out.println(IP);
-                TimeUnit.SECONDS.sleep(2);
+                Thread.sleep(2000);
             }
         } catch (Exception e) {
             System.err.println("Error in UDPBroadcast Thread: " + this.getId() + ": " + e);
