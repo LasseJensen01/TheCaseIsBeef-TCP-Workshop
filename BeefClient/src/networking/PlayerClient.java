@@ -34,6 +34,7 @@ non-sealed public class PlayerClient extends ClientFieldCapsule {
         String[] server = new String[2];
         try {
             DatagramSocket socket = new DatagramSocket(1212);
+            socket.setBroadcast(true);
             byte[] buffer = new byte[1024];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             socket.receive(packet);
