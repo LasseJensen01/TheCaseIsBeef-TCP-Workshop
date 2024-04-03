@@ -23,7 +23,6 @@ public class UDPBroadcastThread extends Thread{
             byte[] data = msg.getBytes();
             InetAddress broadcastAdress = InetAddress.getByName("255.255.255.255");
             DatagramPacket packet = new DatagramPacket(data, data.length, broadcastAdress, 1212);
-            DatagramPacket p = new DatagramPacket(data,data.length,1212);
             while (true){
                 socket.send(packet);
                 System.out.println(IP);
